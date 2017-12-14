@@ -152,15 +152,15 @@
 %\clearpage
 
 \begin{abstract}
-	This is a blank document from which you can start writing your thesis.
+    \input{front/abstract}
 \end{abstract}
 
 \begin{dedication}
-	This is an optional page.
+    \input{front/dedication}
 \end{dedication}
 
 \begin{acknowledgements}
-	This is an optional page.
+    \input{front/acknowledgements}
 \end{acknowledgements}
 
 \addtoToC{Table of Contents}%
@@ -186,9 +186,12 @@
 
 \mainmatter%
 
-\chapter{Introduction}
-
-By default, only works cited in the text will be added to the bibliography~\cite{latexcompanion}.
+\include{chapters/intro}
+\include{chapters/prelims}
+\include{chapters/powerlaw}
+\include{chapters/expanders}
+\include{chapters/comparison}
+\include{chapters/conclusions}
 
 
 
@@ -211,7 +214,8 @@ By default, only works cited in the text will be added to the bibliography~\cite
 \bibliography{references}
 
 \begin{appendices} % optional
-	\chapter{Code}
+    \input{appendices/snippets}
+    \input{appendices/misc}
 \end{appendices}
 
 \end{document}
