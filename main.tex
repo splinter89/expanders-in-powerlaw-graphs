@@ -95,13 +95,22 @@
 \usepackage{amssymb}                            % (1)
 \usepackage{amsthm}                             % (2)
 \usepackage{graphicx}                           % (3)
+\usepackage{float} % // fix "destination with the same identifier" warning
 \usepackage[pdfborder={0 0 0}]{hyperref}        % (4)
 % \usepackage{pdfpages}                         % (5)
 % ...
 % ...
 % ...
 % ... add your own packages here!
-
+\usepackage[all]{hypcap}    % Adjusting the anchors of captions
+%\usepackage{calrsfs}       % Copperplate calligraphic letters
+\usepackage{bm}             % Access bold symbols in maths mode
+\usepackage{algorithm}
+\usepackage{algpseudocode}  % Pseudocode algorithmic style for algorithmicx
+\usepackage[framemethod=tikz]{mdframed} % Framed environments
+\usepackage{multirow}       % Create tabular cells spanning multiple rows
+\usepackage{aliascnt}       % Alias counters // fix Lemma autoref
+\usepackage{subfig}         % Figures broken into subfigures
 
 
 
@@ -128,7 +137,50 @@
 % ...
 % ...
 % ... add your own customizations here!
-
+\everymath{\displaystyle}
+\DeclareMathAlphabet{\pazocal}{OMS}{zplm}{m}{n}
+\newcommand{\Laplacian}{\pazocal{L}}
+\newenvironment{shaded}
+    {\begin{mdframed}[hidealllines=true,backgroundcolor=blue!5,roundcorner=3pt,
+            innerleftmargin=3pt,innerrightmargin=3pt,
+            leftmargin=-3pt,rightmargin=-3pt]}
+    {\end{mdframed}}
+%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem*{corollary*}{Corollary}
+%
+\theoremstyle{plain}
+\newaliascnt{lemma}{theorem}
+\newtheorem{lemma}[lemma]{Lemma}
+\newtheorem*{lemma*}{Lemma}
+\aliascntresetthe{lemma}
+\providecommand*{\lemmaautorefname}{Lemma}
+%
+\theoremstyle{plain}
+\newaliascnt{proposition}{theorem}
+\newtheorem{proposition}[proposition]{Proposition}
+\newtheorem*{proposition*}{Proposition}
+\aliascntresetthe{proposition}
+\providecommand*{\propositionautorefname}{Proposition}
+%
+\theoremstyle{definition}
+\newaliascnt{definition}{theorem}
+\newtheorem{definition}[definition]{Definition}
+\newtheorem*{definition*}{Definition}
+\aliascntresetthe{definition}
+\providecommand*{\definitionautorefname}{Definition}
+%
+\providecommand*{\algorithmautorefname}{Algorithm}
+\newcommand{\subfigureautorefname}{\figureautorefname}
+\newcommand{\E}{\mathop{{}\mathbb{E}}} % "expected value" w/ limits behavior
+\newcommand{\floor}[1]{{\left\lfloor{#1}\right\rfloor}}
+\newcommand{\ceil}[1]{{\left\lceil{#1}\right\rceil}}
+\DeclareMathOperator*{\vol}{vol}
+\DeclareMathOperator*{\Vol}{Vol}
+\DeclareMathOperator*{\dist}{dist}
 
 
 
@@ -177,8 +229,6 @@
 
 
 
-
-
 %   MAIN MATTER  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %   Start writing your thesis --- or start \include ing chapters --- here.
@@ -210,7 +260,7 @@
 \backmatter%
 
 \addtoToC{Bibliography}
-\bibliographystyle{plain}
+\bibliographystyle{plain} % alpha
 \bibliography{references}
 
 \begin{appendices} % optional
