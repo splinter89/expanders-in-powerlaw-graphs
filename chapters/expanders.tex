@@ -1,3 +1,1087 @@
-\chapter{Expander Graphs}
+\chapter{Expanders in Power-Law Graphs}
+\label{ch:expanders}
 
-Expander Graphs.
+From now on, we will work with an induced subgraph $H=(V_H,E_H)$ of $G$,
+obtained by retaining only vertices of degree at least $d_0$.
+This definition is both intuitive and easy to work with.
+We denote the size $|V_H|=n'$.
+
+If $H$ is an expander, then outputting $H$ is as simple as checking
+the degree of each vertex during the process of generation of the graph $G$.
+Connecting large spectral gap with high combinatorial expansion
+would allow one to eliminate error of outputting non-expander,
+but it is still an open problem for our models.
+
+\section{Coin Toss Model}
+
+\begin{theorem}[Existence of an edge expander]
+    \label{thm:powerlaw-coin-toss-edge-expansion}
+    $\exists d_0\;\forall c<1/3\;\forall\delta>0\;\exists\gamma,c_1=c_1(\beta,c)>0:$
+    let $G=(V,E)$ be a random power-law graph
+    and $H=(V_H,E_H)$ be its induced subgraph on $|V_H|=n'$ vertices,
+    such that $V_H=\{v\in V\;|\;\deg(v)\geq d_0\}$.
+    
+    Then if $0<\beta<1$, the whole graph $G$ is $(n/2,\gamma)$ edge expander w.h.p.
+    
+    Otherwise, the subgraph $H$ is $(n'/2,\gamma)$ edge expander w.h.p.
+    \begin{gather}
+        d_{max}=\max_{v\in V}{\deg(v)}\\
+        d_0=
+        \begin{cases}
+            1 & \quad \text{if } 0<\beta<1,\\
+            d_{max}/\sqrt{n} & \quad \text{if } \beta=1,\\
+            \frac{d_{max}}{n^{1/\beta}} & \quad \text{if } 1<\beta\leq 1.6,\\
+            c\,d_{max} & \quad \text{if } \beta>1.6.
+        \end{cases}
+    \end{gather}
+    \begin{gather}
+        n'=
+        \begin{cases}
+            n & \quad \text{if } 0<\beta<1,\\
+%            \left(\ln 1/c\right)\frac{n}{\ln n}=\Theta\left(\frac{n}{\ln n}\right) & \quad \text{if } \beta=1,\\
+            n/2 & \quad \text{if } \beta=1,\\
+            \frac{n}{(\beta-1)\,\zeta(\beta)^{1/\beta}} & \quad \text{if } 1<\beta\leq 1.6,\\
+            \frac{c^{-\beta+1}-1}{\beta-1}\left(n/\zeta(\beta)\right)^{1/\beta}=\Theta\left(n^{1/\beta}\right) & \quad \text{if } \beta>1.6.
+        \end{cases}\\
+        c_1=
+        \begin{cases}
+            \frac{(1-\beta)^2}{2-\beta} & \quad \text{if } 0<\beta<1,\\
+            \frac{1-c}{(\ln 1/c)^2} & \quad \text{if } \beta=1,\\
+            \frac{(\beta-1)^2}{2-\beta}\frac{1-c^{2-\beta}}{(c^{-\beta+1}-1)^2} & \quad \text{if } 1<\beta<2\text{ or }\beta>2,\\
+            \frac{\ln 1/c}{(1/c-1)^2} & \quad \text{if } \beta=2.
+        \end{cases}
+    \end{gather}
+    In all cases the average degree $d$ and the expansion $\gamma$ are as follows:
+    \begin{gather}
+        d=c_1n'\\
+        \gamma=\frac{d}{2}-\delta
+    \end{gather}
+\end{theorem}
+
+The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expansion}.
+
+\begin{lemma}
+    \label{lem:coin-toss-lemma-d}
+    $\forall\delta>0\;\exists\gamma:$
+    If the expected average degree of a graph $H$ on $n'$ vertices is $d>10\ln n'$,
+    then $H$ is $(n'/2,\gamma)$ edge expander w.h.p., $\gamma=d/2-\delta$.
+\end{lemma}
+
+\begin{proof}
+    Given an arbitrary cut $(S,T)$: $e(S,T)=\{(u,v)\in E_H\;|\;u\in S,v\in T\}$.
+    Using~\eqref{eq:powerlaw-coin-toss-edge-pr}:
+    \begin{equation}
+        \E_G[|e(S,T)|]=\frac{\Vol(S)\,\Vol(T)}{\Vol(H)}
+        % arg max(x(1-x)) = 0.5
+    \end{equation}
+    
+    The volume of an arbitrary subset $S\subset V_H$ of a fixed size $|S|=s\leq n'/2$
+    is $\Vol(S)=sd$, where $d=\Vol(H)/n'$ is the expected average degree of $H$.
+    
+    Define a random variable $X_S$ to be the size of a cut $(S,V_H\backslash S)$ with expected value $\mu$:
+    \begin{gather}
+        X_S=|e(S,V_H\backslash S)|\\
+        \mu=\E_G[X_S]=\frac{\Vol(S)\Vol(V_H\backslash S)}{\Vol(H)}=\Vol(S)\left(1-\frac{s}{n'}\right)\\
+        \frac{\mu}{s}=d\left(1-\frac{s}{n'}\right)\\
+        \frac{d}{2}\leq\frac{\mu}{s}\leq d
+    \end{gather}
+    
+    We will use the Chernoff bound for the lower tail~\eqref{eq:chernoff-lower-tail}
+    for some $0<\lambda<1$:
+    \begin{gather*}
+        \gamma s=(1-\lambda)\mu\\
+        0<\lambda=1-\gamma s/\mu
+    \end{gather*}
+    \begin{equation}
+        \label{eq:powerlaw-coin-toss-expansion-bound}
+        \gamma<\mu/s
+    \end{equation}
+    
+    Therefore, the only requirement is $\gamma<d/2$. Now, as for the expansion of $H$:
+    
+    $\Pr_{G,S}[S\text{ is non-expanding}]=\Pr_{G,S}[X_S\leq\gamma s]\leq \exp(-\lambda^2\mu/2)
+    =\exp(-(\mu-\gamma s)^2/2\mu)=$
+    
+    $\qquad=\exp(-\mu/2+\gamma s-\gamma^2s^2/2\mu)\leq\exp(\gamma s-\mu/2)$.
+    
+    $\Pr_G[H\text{ is not }(n'/2,\gamma)\text{ edge expander}]$
+    $\leq\sum_{s=1}^{n'/2}{\binom{n'}{s}\Pr_{G,S}[S\text{ is non-expanding}]}\leq$
+    
+    $\qquad\leq\sum_{s=1}^{n'/2}{\left(\frac{en'}{s}\exp\left(-\frac{(\mu/s-\gamma)^2}{2\mu/s}\right)\right)^s}
+    =\sum_{s=1}^{n'/2}{\exp\left(\left(1+\ln\frac{n'}{s}-\frac{(\mu/s-\gamma)^2}{2\mu/s}\right)s\right)}\leq$
+    
+    $\qquad\leq\sum_{s=1}^{n'/2}{\exp\left(\left(
+        1
+        -\ln\frac{s}{n'}
+        -\frac{d}{2}\left(1-s/n'\right)
+        +\gamma
+        -\frac{\gamma^2}{2d\left(1-s/n'\right)}
+    \right)s\right)}\leq$
+    
+    $\qquad\leq\sum_{s=1}^{n'/2}{\exp\left(\left(
+        1+\ln n'
+        -\frac{d}{2}(1-1/2)
+        +\gamma
+    \right)s\right)}\leq$
+    
+    $\qquad\leq\sum_{s=1}^{n'/2}{\left(\frac{1}{n'^{(1+\sigma)}}\right)^s}\leq\frac{n'/2}{n'^{(1+\sigma)}}=o(1).$
+    
+    The last line is obtained if we can satisfy the following inequality
+    for some small constant $\sigma>0$:
+    \begin{gather*}
+        1+\ln n'-\frac{d}{4}+\gamma\leq-(1+\sigma)\ln n'\\
+        0<\gamma\leq\frac{d}{4}-(2+\sigma)\ln n'-1\\
+        d>4\left((2+\sigma)\ln n'+1\right)\\
+        d>10\ln n'
+    \end{gather*}
+\end{proof}
+
+\begin{lemma}[Size and volume of the subgraph H]
+    \label{lem:powerlaw-coin-toss-size-vol-of-h}
+    If $d_0=c\,d_{max}$ for $0<c<1$, then:
+    \begin{gather}
+        n'=
+        \begin{cases}
+            \left(1-c^{1-\beta}\right)n & \quad \text{if } \beta<1,\\
+            \frac{\ln 1/c}{\alpha}n\approx\left(\ln 1/c\right)\frac{n}{\ln n} & \quad \text{if } \beta=1,\\
+            \frac{c^{-\beta+1}-1}{\beta-1}\left(n/\zeta(\beta)\right)^{1/\beta} & \quad \text{if } \beta>1. %o(n)
+        \end{cases}\\
+        \Vol(H)=
+        \begin{cases}
+            \frac{1-c^{2-\beta}}{2-\beta}e^{2\alpha/\beta} & \quad \text{if } \beta<2,\\
+            \left(\ln 1/c\right)e^\alpha & \quad \text{if } \beta=2,\\
+            \frac{c^{-\beta+2}-1}{\beta-2}e^{2\alpha/\beta}+\frac{c^{-\beta+1}-1}{2}e^{\alpha/\beta} & \quad \text{if } \beta>2.
+        \end{cases}\\
+        d=\frac{\Vol(H)}{n'}=\Theta(n')
+    \end{gather}
+\end{lemma}
+
+\begin{proof}
+    Consider~\eqref{eq:powerlaw-coin-toss-n-e} and
+    $n'=\sum_{x=d_0}^{d_{max}}\frac{e^\alpha}{x^\beta},
+    \;\Vol(H)=\sum_{x=d_0}^{d_{max}}{x\frac{e^\alpha}{x^\beta}}$.
+    
+    \textbf{Case $\beta<1$}, similarly to~\eqref{eq:powerlaw-coin-toss-vol}:
+    \begin{equation*}
+        n=\frac{e^{\alpha/\beta}}{1-\beta}
+        \qquad n'=\frac{e^\alpha}{1-\beta}\left(d_{max}^{1-\beta}-d_0^{1-\beta}\right)
+        =\frac{1-c^{1-\beta}}{1-\beta}e^{\alpha/\beta}
+    \end{equation*}
+    
+    \textbf{Case $\beta=1$:}
+    $d_{max}=e^\alpha$.
+    \begin{equation*}
+        n=\left(\ln d_{max}\right)e^\alpha=\alpha e^\alpha
+        \qquad n'=(\ln d_{max}-\ln d_0)e^\alpha=(\ln 1/c)e^\alpha
+    \end{equation*}
+
+    \textbf{Case $\beta>1$:}
+    
+    $n=e^\alpha H_{d_{max},\beta}$
+    
+    $n'=e^\alpha\left(H_{d_{max},\beta}-H_{c\,d_{max},\beta}\right)
+    =\left(1-\frac{H_{c\,d_{max},\beta}}{H_{d_{max},\beta}}\right)n=$
+    
+    $\qquad=\left(1-\frac{
+        \zeta(\beta)-\frac{1}{(\beta-1)(c\,d_{max})^{\beta-1}}-\frac{1}{2(c\,d_{max})^\beta}-O\left(\frac{1}{(c\,d_{max})^{\beta+1}}\right)
+    }{
+        \zeta(\beta)-\frac{1}{(\beta-1)d_{max}^{\beta-1}}-\frac{1}{2\,d_{max}^\beta}-O\left(\frac{1}{d_{max}^{\beta+1}}\right)
+    }\right)n=$
+
+    $\qquad=\left(\frac{
+        \frac{c^{-\beta+1}-1}{(\beta-1)d_{max}^{\beta-1}}+\frac{c^{-\beta}-1}{2\,d_{max}^\beta}+O\left(\frac{1}{d_{max}^{\beta+1}}\right)
+    }{
+        \zeta(\beta)-\frac{1}{(\beta-1)d_{max}^{\beta-1}}-\frac{1}{2\,d_{max}^\beta}-O\left(\frac{1}{d_{max}^{\beta+1}}\right)
+    }\right)n=$
+
+    $\qquad=\left(\frac{c^{-\beta+1}-1}{(\beta-1)d_{max}^{\beta-1}}+\frac{c^{-\beta}-1}{2\,d_{max}^\beta}+O\left(\frac{1}{d_{max}^{\beta+1}}\right)\right)e^\alpha=$
+    
+    $\qquad=\frac{c^{-\beta+1}-1}{\beta-1}d_{max}+\frac{c^{-\beta}-1}{2}+O\left(\frac{1}{d_{max}}\right)\approx$
+    
+    $\qquad\approx\frac{c^{-\beta+1}-1}{\beta-1}e^{\alpha/\beta}
+    \approx\frac{c^{-\beta+1}-1}{\beta-1}\left(\frac{n}{\zeta(\beta)}\right)^{1/\beta}$.
+    
+    Now for the expected volume, \textbf{case $\beta<2$}:
+    \begin{gather*}
+        \Vol(H)=\frac{e^\alpha}{2-\beta}\left(d_{max}^{2-\beta}-d_0^{2-\beta}\right)
+        =\frac{1-c^{2-\beta}}{2-\beta}e^{2\alpha/\beta}
+    \end{gather*}
+    
+    \textbf{Case $\beta=2$:}
+    $d_{max}=e^{\alpha/2}$.
+    \begin{gather*}
+        \Vol(H)=(\ln d_{max}-\ln d_0)e^\alpha=(\ln 1/c)e^\alpha
+    \end{gather*}
+    
+    \textbf{Case $\beta>2$:}
+    \begin{gather*}
+        \Vol(H)=e^\alpha\left(H_{d_{max},\beta-1}-H_{c\,d_{max},\beta-1}\right)=\\
+        =\left(
+            -\frac{1}{(\beta-2)d_{max}^{\beta-2}}-\frac{1}{2d_{max}^{\beta-1}}
+            +\frac{1}{(\beta-2)(c\,d_{max})^{\beta-2}}+\frac{1}{2(c\,d_{max})^{\beta-1}}+O\left(\frac{1}{d_{max}^\beta}\right)
+        \right)e^\alpha=\\
+        =\left(\frac{c^{-\beta+2}-1}{(\beta-2)d_{max}^{\beta-2}}+\frac{c^{-\beta+1}-1}{2d_{max}^{\beta-1}}+O\left(\frac{1}{d_{max}^\beta}\right)\right)e^\alpha=\\
+        =\frac{c^{-\beta+2}-1}{\beta-2}d_{max}^2+\frac{c^{-\beta+1}-1}{2}d_{max}+O(1)\approx\\
+        \approx\frac{c^{-\beta+2}-1}{\beta-2}e^{2\alpha/\beta}+\frac{c^{-\beta+1}-1}{2}e^{\alpha/\beta}
+    \end{gather*}
+
+    Finally, the average degree is always $\Theta(n')$:
+    \begin{equation*}
+        d=\frac{\Vol(H)}{n'}=
+        \begin{cases}
+            \frac{1-\beta}{2-\beta}\frac{1-c^{2-\beta}}{1-c^{1-\beta}}e^{\alpha/\beta} & \quad \text{if } \beta<1,\\
+            \frac{1-c}{\ln 1/c}e^\alpha & \quad \text{if } \beta=1,\\
+            \frac{\beta-1}{2-\beta}\frac{1-c^{2-\beta}}{c^{-\beta+1}-1}e^{\alpha/\beta} & \quad \text{if } 1<\beta<2,\\
+            \frac{\ln 1/c}{1/c-1}e^{\alpha/2} & \quad \text{if } \beta=2,\\
+            \frac{\beta-1}{\beta-2}\frac{c^{-\beta+2}-1}{c^{-\beta+1}-1}e^{\alpha/\beta}+O(1) & \quad \text{if } \beta>2.
+        \end{cases}
+    \end{equation*}
+\end{proof}
+
+Considering $H$ independently from $G\backslash H$,
+we need to account for $e(H,G\backslash H)$:
+\begin{gather}
+    \Vol(G)=\begin{cases}
+        \Theta\left(n^2\right) & \quad \text{if } \beta<1,\\
+        \Theta\left(\left(\frac{n}{\log n}\right)^2\right) & \quad \text{if } \beta=1,\\
+        \Theta\left(n^{2/\beta}\right) & \quad \text{if } 1<\beta<2,\\
+        \Theta\left(n\log n\right) & \quad \text{if } \beta=2,\\
+        \Theta\left(n\right) & \quad \text{if } \beta>2.
+    \end{cases}\\
+    \Vol(H)=\sum_{v\in H}{w_v}=\Theta\left(n'^2\right)=\begin{cases}
+        \Theta\left(n^2\right) & \quad \text{if } \beta<1,\\
+        \Theta\left(\left(\frac{n}{\log n}\right)^2\right) & \quad \text{if } \beta=1,\\
+        \Theta\left(n^{2/\beta}\right) & \quad \text{if } \beta>1.
+    \end{cases}\\
+    2\,|e(H)|=\Vol(H)-|e(H,G\backslash H)|\\
+    |e(H,G\backslash H)|=\frac{\Vol(H)\Vol(G\backslash H)}{\Vol(G)}\\
+    |e(H)|=\frac{\Vol(H)^2}{2\Vol(G)}
+\end{gather}
+\begin{equation}
+    \begin{split}
+        |e(G)|=&|e(H)|+|e(H,G\backslash H)|+|e(G\backslash H)|=\\
+        =&\frac{\Vol(H)^2/2+\Vol(H)\Vol(G\backslash H)+\Vol(G\backslash H)^2/2}{\Vol(G)}=\\
+        =&\frac{(\Vol(H)+\Vol(G\backslash H))^2}{2\Vol(G)}
+        =\frac{\Vol(G)^2}{2\Vol(G)}=\frac{\Vol(G)}{2}
+    \end{split}
+\end{equation}
+
+How much smaller would $2\,e(H)$ be than $\Vol(H)$ that we use?
+\begin{gather}
+    2\,e(H)=\frac{\Vol(H)^2}{\Vol(G)}=\Vol(H)\,x\\
+    x=\frac{\Vol(H)}{\Vol(G)}=\begin{cases}
+        \Theta(1) & \quad \text{if } \beta<2,\\
+        \frac{1}{\log n} & \quad \text{if } \beta=2,\\
+        \frac{1}{n^{1-2/\beta}} & \quad \text{if } \beta>2.
+    \end{cases}
+\end{gather}
+It means the larger $\beta$, the fewer edges are between high-degree vertices in $H$
+than edges from $H$ to low-degree vertices in $G\backslash H$.
+
+\begin{lemma}[Linear size subgraph H]
+    \label{lem:powerlaw-coin-toss-size-vol-of-h-large}
+    In order to get $n'=\Theta(n)$, we need to include more vertices in $H$:
+    \begin{itemize}
+        \item $\beta=1$: if $d_0=d_{max}/\sqrt{n}$, then $n'=n/2$;
+        \item $1<\beta\leq 1.6$: if $d_0=\frac{d_{max}}{n^{1/\beta}}$, then $n'=\Theta(n)$.
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    \textbf{Case $\beta=1$:}
+    $d_{max}=e^\alpha$.
+    
+    %todo temp
+    \begin{gather*}
+        n=\alpha e^\alpha\qquad\alpha\approx\ln n\\
+        d_0=d_{max}e^{-x}\\
+        \ln d_0=\ln d_{max}-x\\
+        n'=(\ln d_{max}-\ln d_0)\frac{n}{\alpha}=\frac{xn}{\alpha}
+    \end{gather*}
+
+    $x=\frac{\ln n}{2}:\quad d_0=\frac{d_{max}}{\sqrt{n}},\quad n'\approx\frac{n}{2}$
+    
+    $x=c\;\ln n:\quad d_0=\frac{d_{max}}{n^c},\quad n'\approx cn$
+    
+    \begin{gather*}
+        \Vol(H)=e^\alpha(d_{max}-d_{max}n^{-c})=e^{2\alpha}(1-n^{-c})\\
+        d=\frac{\Vol(H)}{n'}=\frac{e^\alpha}{c\alpha}(1-n^{-c}) %todo same c (for vol & d_0)?
+        =\frac{n'}{c^2\alpha^2}(1-(n'/c)^{-c})
+        \approx\frac{1}{c^2}(1-(n'/c)^-c)\frac{n'}{(\ln (n'/c))^2}
+    \end{gather*}
+    
+    If $c=1/2,\quad d\approx4\left(1-\frac{1}{\sqrt{2n'}}\right)\frac{n'}{(\ln (2n'))^2}=\omega(\ln n')$.
+    
+    \textbf{Case $\beta>1$:}
+    \begin{gather*}
+        n'=\left(1-\frac{H_{x,\beta}}{H_{d_{max},\beta}}\right)n\\
+        1-\frac{H_{x,\beta}}{H_{d_{max},\beta}}=c\\
+        (1-c)H_{d_{max},\beta}=H_{x,\beta}\\
+        (1-c)\sum_{k=1}^{d_{max}}\frac{1}{k^\beta}=\sum_{k=1}^{x}\frac{1}{k^\beta}
+        \qquad(1-c)\sum_{k=x+1}^{d_{max}}\frac{1}{k^\beta}=c\sum_{k=1}^{x}\frac{1}{k^\beta}
+    \end{gather*}
+    % todo
+    % syms c k d x
+    % X=solve((1-c)*symsum(1/k,k,1,d)-symsum(1/k,k,1,x), x)
+    % > Warning: unable to find explicit solution.
+    
+    Known special case:
+    $H_{2x,2}=\frac{1}{2}\left(\zeta(2)+\frac{1}{2}\left(H_{x,2}+H_{x-\frac{1}{2},2}\right)\right)$
+    
+    \begin{gather*}
+        (1-c)\left(\zeta(\beta)-\frac{1}{(\beta-1)d_{max}^{\beta-1}}-\frac{1}{2\,d_{max}^\beta}-O\left(\frac{1}{d_{max}^{\beta+1}}\right)\right)=\\
+        =\zeta(\beta)-\frac{1}{(\beta-1)x^{\beta-1}}-\frac{1}{2\,x^\beta}-O\left(\frac{1}{x^{\beta+1}}\right)\\
+        \frac{1}{(\beta-1)x^{\beta-1}}+\frac{1}{2\,x^\beta}-\frac{1-c}{(\beta-1)d_{max}^{\beta-1}}-\frac{1-c}{2\,d_{max}^\beta}+O\left(\frac{1}{x^{\beta+1}}\right)=c\;\zeta(\beta)
+    \end{gather*}
+    
+    \begin{gather*}
+        (1-c)H_{d_{max},\beta}=H_{x,\beta}\\
+        (1-c)\sum_{k=1}^{d_{max}}\frac{1}{k^\beta}=\sum_{k=1}^{x}\frac{1}{k^\beta}\\
+        \zeta(\beta)-H_{a,\beta}=\int_a^\infty{\frac{1}{t^\beta}\,dt}
+        +\frac{1}{2a^\beta}
+        -\sum_{i=2}^k{\frac{b_i}{i!}f^{(i-1)}(a)}
+        -\int_a^\infty{\frac{B_k(\{1-t\})}{k!}f^{(k)}(t)\,dt}=\\
+        =\frac{1}{(\beta-1)a^{\beta-1}}
+        +\frac{1}{2a^\beta}
+        -\frac{-\beta}{12a^{\beta+1}}
+        -O\left(\frac{1}{a^{\beta+1}}\right)\\\\
+        (1-c)H_{d_{max},\beta}=(1-c)\left(\zeta(\beta)-\frac{1}{(\beta-1)d_{max}^{\beta-1}}
+        -\frac{1}{2d_{max}^\beta}
+        +O\left(\frac{1}{d_{max}^{\beta+1}}\right)\right)\\
+        H_{d_0,\beta}=\zeta(\beta)-\frac{1}{(\beta-1)d_0^{\beta-1}}
+        -\frac{1}{2d_0^\beta}
+        +O\left(\frac{1}{d_0^{\beta+1}}\right)
+        % syms c z d b s
+        % X=solve((1-c)*(z-1/((b-1)*d^(b-1))-1/(2*d^b))-(z-1/((b-1)*(s*d)^(b-1))-1/(2*(s*d)^b)), s)
+        % syms a b c d z
+        % X=solve((1/(a^(b-1))-(1-c))/((b-1)*d^(b-1))+(1/(a^b)-(1-c))/(2*d^b)-c*z, a)
+    \end{gather*}
+    If $d_0=xd_{max}$:
+    \begin{gather*}
+        d_{max}=e^{\alpha/\beta}\\
+        n=e^\alpha H_{d_{max},\beta}\approx e^\alpha\zeta(\beta)
+        =d_{max}^\beta\zeta(\beta)\\\\
+        n'=e^\alpha\left(H_{d_{max},\beta}-H_{x\,d_{max},\beta}\right)=\\
+        =e^\alpha\left(
+            \frac{x^{-\beta+1}-1}{(\beta-1)d_{max}^{\beta-1}}
+            +\frac{x^{-\beta}-1}{2d_{max}^\beta}
+            +O\left(\frac{1}{d_{max}^{\beta+1}}\right)
+        \right)=\\
+        =\frac{x^{-\beta+1}-1}{(\beta-1)}d_{max}
+        +\frac{x^{-\beta}-1}{2}
+        +O\left(\frac{1}{d_{max}}\right)
+        \approx\frac{x^{-\beta+1}-1}{(\beta-1)}\left(\frac{n}{\zeta(\beta)}\right)^{1/\beta}
+    \end{gather*}
+    We now choose $x=n^y$:
+    \begin{gather*}
+        n'\approx\frac{n^{1/\beta-y(\beta-1)}}{(\beta-1)\,\zeta(\beta)^{1/\beta}}\\
+        1/\beta-y(\beta-1)=1\\
+        y=\frac{1/\beta-1}{\beta-1}=-1/\beta
+    \end{gather*}
+    $d_0=\frac{d_{max}}{n^{1/\beta}}\implies
+    n'\approx\frac{n}{(\beta-1)\,\zeta(\beta)^{1/\beta}}=\Theta(n)
+    \qquad\qquad\qquad\qquad\sum_{i=1}^{\infty}{\frac{1}{i^2}}=\frac{\pi^2}{6}$
+        
+    We note that $(\beta-1)\,\zeta(\beta)^{1/\beta}>1$ requires $\beta\leq 1.6$.
+
+    Finally, we get the expected average degree $d$ for different ranges of $\beta$:
+    \begin{align*}
+        d&=\frac{\Vol(H)}{n'}=\frac{H_{d_{max},\beta-1}-H_{d_0,\beta-1}}{H_{d_{max},\beta}-H_{d_0,\beta}}\\
+        1<\beta<2:\quad d&=\frac{d_{max}^{2-\beta}-d_0^{2-\beta}}{(2-\beta)\,\Theta(1)}
+        =\frac{1-n^{-(2-\beta)/\beta}}{(2-\beta)\,\Theta(1)}d_{max}^{2-\beta}=\Theta\left(d_{max}^{2-\beta}\right)\\
+        \beta=2:\quad d&=\frac{\ln d_{max}-\ln d_0}{\Theta(1)}=\frac{\frac{1}{\beta}\ln n}{\Theta(1)}\\
+        \beta>2:\quad d&=\Theta(1)
+    \end{align*}
+    
+    We can see that~\autoref{lem:coin-toss-lemma-d} is applicable for
+    $1\leq\beta\leq 1.6$ because $d=\omega(\ln n')$.
+\end{proof}
+
+\begin{proof}[Proof of~\autoref{thm:powerlaw-coin-toss-edge-expansion}]
+    \label{prf:powerlaw-coin-toss-edge-expansion}
+    For $1\leq\beta\leq 1.6$ we use
+    \autoref{lem:powerlaw-coin-toss-size-vol-of-h-large}
+    and~\autoref{lem:coin-toss-lemma-d} and we are done.
+    
+    Otherwise, we get $n'$ and $\Vol(H)$ from~\autoref{lem:powerlaw-coin-toss-size-vol-of-h},
+    which covers all possible values of $\beta$.
+    
+    \textbf{Case $0<\beta<1$:}
+    \begin{equation*}
+        \Vol(S)=s\frac{1-\beta}{2-\beta}\frac{1-c^{2-\beta}}{1-c^{1-\beta}}e^{\alpha/\beta}
+        =\frac{(1-\beta)^2}{2-\beta}\frac{1-c^{2-\beta}}{(1-c^{1-\beta})^2}sn'
+    \end{equation*}
+    
+    Let $c_1=\frac{(1-\beta)^2}{2-\beta}\frac{1-c^{2-\beta}}{(1-c^{1-\beta})^2}>0$,
+    then $\Vol(S)=c_1sn'$.
+    
+    $\Pr_{G,S}[S\text{ is non-expanding}]\leq\exp(\gamma s-\mu/2)
+    =exp\left(\left(\gamma-c_1(n'-s)/2\right)s\right)$.
+    
+    $\Pr_G[H\text{ is not }(\epsilon n',\gamma)\text{ edge expander}]
+    \leq\sum_{s=1}^{\epsilon n'}{\binom{n'}{s}\Pr_{G,S}[S\text{ is non-expanding}]}\leq$
+    
+    $\qquad\leq\sum_{s=1}^{\epsilon n'}{\left(e^{\gamma+1}\frac{n'}{s}e^{-c_1(n'-s)/2}\right)^s}=o(1)$.
+    
+    When $1\leq s\leq\epsilon n'$, the last equality holds for any $\epsilon>0$ satisfying the following condition:
+    \begin{gather*}
+        e^{\gamma+1}\frac{n'}{s}e^{-c_1(n'-s)/2}<\frac{1}{10}\\
+        e^{\gamma+1}n'e^{-c_1n'(1-\epsilon)/2}<\frac{1}{10}\\
+        c_1n'(1-\epsilon)/2>\ln\left(10e^{\gamma+1}n'\right)\\
+        \epsilon<1-\frac{2}{c_1n'}\ln\left(10e^{\gamma+1}n'\right)
+        =1-\frac{\ln(c_2n')}{c_3n'}=1-o(1)
+    \end{gather*}
+    
+    We choose $\epsilon=1/2$.
+    
+    To satisfy the requirement~\eqref{eq:powerlaw-coin-toss-expansion-bound} when $1\leq s\leq n'/2$:
+    \begin{gather*}
+        \gamma<\mu/s=c_1(1-\frac{s}{n'})n'\\
+        \gamma=\frac{c_1}{2}n'-\delta\text{, for any }\delta\geq 0
+    \end{gather*}
+    
+    Finally, we restrict $c<1/3$ to have $c_1\leq1$ and $\Vol(S)\leq sn'$.
+    
+    Note that if $0<\beta<1$ and $d_0=1$, then $n'=n$ and $\Vol(H)=\Vol(G)$ but the argument still holds,
+    i.e., the whole graph $G$ is an edge expander w.h.p.
+    
+    \textbf{Case $\beta=1$:}
+    \begin{equation*}
+        \Vol(S)=s\frac{1-c}{\ln 1/c}e^\alpha=\frac{1-c}{(\ln 1/c)^2}sn'
+    \end{equation*}
+    
+    Let $c_1=\frac{1-c}{(\ln 1/c)^2}>0$, then $\Vol(S)=c_1sn'$.
+    
+    The rest of the proof is identical to the previous case, but necessarily $c>0$.
+    
+    \textbf{Case $1<\beta<2$:}
+    \begin{equation*}
+        \Vol(S)=s\frac{\beta-1}{2-\beta}\frac{1-c^{2-\beta}}{c^{-\beta+1}-1}e^{\alpha/\beta}
+        =\frac{(\beta-1)^2}{2-\beta}\frac{1-c^{2-\beta}}{(c^{-\beta+1}-1)^2}sn'
+    \end{equation*}
+    
+    Let $c_1=\frac{(\beta-1)^2}{2-\beta}\frac{1-c^{2-\beta}}{(c^{-\beta+1}-1)^2}>0$,
+    then $\Vol(S)=c_1sn'$.
+    
+    The case is identical to $\beta=1$.
+    
+    \textbf{Case $\beta=2$:}
+    \begin{equation*}
+        \Vol(S)=s\frac{\ln 1/c}{1/c-1}e^{\alpha/2}
+        =\frac{\ln 1/c}{(1/c-1)^2}sn'
+    \end{equation*}
+    
+    Analogously, $c_1=\frac{\ln 1/c}{(1/c-1)^2}>0$ and again $\Vol(S)=c_1sn'$.
+    
+    \textbf{Case $\beta>2$:}
+    similarly to the case $1<\beta<2$,
+    \begin{equation*}
+        \Vol(S)=s\left(\frac{\beta-1}{\beta-2}\frac{c^{-\beta+2}-1}{c^{-\beta+1}-1}e^{\alpha/\beta}+O(1)\right)
+        \approx\frac{(\beta-1)^2}{\beta-2}\frac{c^{-\beta+2}-1}{(c^{-\beta+1}-1)^2}sn'
+    \end{equation*}
+
+%    \textbf{Special case $1<\beta<2$ and $c=0$:} here $H=G$.
+%    \begin{gather*}
+%        n'=n=\zeta(\beta)e^\alpha\\
+%        \Vol(H)=\Vol(G)=\frac{e^{2\alpha/\beta}}{2-\beta}=\frac{1}{2-\beta}\left(\frac{n}{\zeta(\beta)}\right)^{2/\beta}\\
+%        \Vol(S)=s\frac{\Vol(G)}{n}=\frac{sn^{2/\beta-1}}{(2-\beta)\zeta(\beta)^{2/\beta}}
+%    \end{gather*}
+%    
+%    Let $c_1=\frac{1}{(2-\beta)\zeta(\beta)^{2/\beta}}>0$, then $\Vol(S)=c_1sn^{2/\beta-1}$.
+%    
+%    $\Pr_G[G\text{ is not }(\epsilon n,\gamma)\text{ edge expander}]
+%    \leq\sum_{s=1}^{\epsilon n}{\binom{n}{s}\exp(\gamma s-\mu/2)}\leq$
+%    
+%    $\qquad\leq\sum_{s=1}^{\epsilon n}{\binom{n}{s}\exp\left(\left(\gamma-c_1n^{2/\beta-1}(1-s/n)/2\right)s\right)}\leq$
+%    
+%    $\qquad\leq\sum_{s=1}^{\epsilon n}{\left(
+%        e^{\gamma+1}
+%        \frac{n}{s}
+%        e^{-c_1n^{2/\beta-1}(1-s/n)/2}
+%    \right)^s}\leq\ldots$
+%
+%    $0<2/\beta-1<1$, $(1-\epsilon)\leq(1-s/n)<1$
+\end{proof}
+
+%\textbf{Special case} when $\beta=3$:
+%\begin{gather*}
+%    n'=\frac{e^\alpha}{2}\left(\frac{1}{d_0^2}-\frac{1}{d_{max}^2}\right)
+%    \qquad \Vol(H)=e^\alpha\left(\frac{1}{d_0}-\frac{1}{d_{max}}\right)
+%    =e^\alpha\frac{d_{max}-d_0}{d_{max}d_0}\\
+%    \Vol(S)=2s\frac{d_{max}d_0}{d_{max}+d_0}\\
+%    \mu=\Vol(S)\left(1-\frac{2s}{e^\alpha}\frac{d_{max}^2d_0^2}{d_{max}^2-d_0^2}\right)
+%\end{gather*}
+%
+%Further, if $d_0=d_{max}/100$:
+%\begin{gather*}
+%    n'=\frac{e^\alpha}{2\,d_{max}^2}(100^2-1)
+%    \qquad \Vol(H)=e^\alpha\frac{99}{d_{max}}\\
+%    \Vol(S)=\frac{2s}{101}d_{max}\\
+%    \mu=\Vol(S)\left(1-\frac{2s}{e^\alpha}\frac{d_{max}^2}{100^2-1}\right)\\
+%\end{gather*}
+%
+%$\Pr_{G,S}[S\text{ is non-expanding}]\leq \exp(-\left(\mu-\gamma s\right)^2/2\mu)
+%=\exp(-\mu/2+\gamma s-\gamma^2s^2/2\mu)$
+%
+%$\qquad\leq \exp(\gamma s-\mu/2)
+%=exp\left(\left(\gamma-\left(1-\frac{2s}{e^\alpha}\frac{d_{max}^2}{100^2-1}\right)d_{max}/101\right)s\right)$
+%
+%$\Pr_G[H\text{ is not }(\epsilon n',\gamma)\text{ edge expander}]$
+%
+%$\qquad\leq\sum_{s=1}^{\epsilon n'}\left(\frac{n'}{s}\,exp\left(
+%    \gamma-
+%    \left(1-\frac{2s}{e^\alpha}\frac{d_{max}^2}{100^2-1}\right)d_{max}/101
+%    +1
+%\right)\right)^s$.
+%
+%Remember that $d_{max}=e^{\alpha/3}$, therefore:
+%\begin{gather*}
+%    n'=\frac{100^2-1}{2}e^{\alpha/3}
+%    \qquad \Vol(H)=99\,e^{(2/3)\alpha}\\
+%    \Vol(S)=\frac{2s}{101}e^{\alpha/3}\\
+%    \mu=\frac{2s}{101}e^{\alpha/3}\left(1-\frac{2s}{100^2-1}e^{-\alpha/3}\right)
+%    =\frac{2s}{101}\left(e^{\alpha/3}-\frac{2s}{100^2-1}\right)
+%    =\frac{2s}{101}e^{\alpha/3}\left(1-\frac{s}{n'}\right)
+%\end{gather*}
+%
+%$\Pr_{G,S}[S\text{ is non-expanding}]\leq \exp(\gamma s-\mu/2)
+%=exp\left(\left(\gamma-\left(1-\frac{s}{n'}\right)\frac{e^{\alpha/3}}{101}\right)s\right)$
+%
+%$\Pr_G[H\text{ is not }(\epsilon n',\gamma)\text{ edge expander}]
+%\leq\sum_{s=1}^{\epsilon n'}{\binom{n'}{s}\Pr_{G,S}[S\text{ is non-expanding}]}$
+%
+%$\leq\sum_{s=1}^{\epsilon n'}{
+%    \left(\frac{en'}{s}\right)^s
+%    exp\left(\left(\gamma-\frac{2}{101(100^2-1)}(n'-s)\right)s\right)
+%}$
+%
+%$=\sum_{s=1}^{\epsilon n'}{\left(
+%    e^{\gamma+1}
+%    \frac{n'}{s}
+%    exp\left(-\frac{2}{101(100^2-1)}(n'-s)\right)
+%\right)^s}
+%=\sum_{s=1}^{\epsilon n'}{\left(
+%    c_1
+%    \frac{n'}{s}
+%    e^{-c_2(n'-s)}
+%\right)^s}=o(1)$.
+%
+%Moreover, \eqref{eq:powerlaw-coin-toss-expansion-bound} is satisfied
+%whenever $\gamma<\frac{2}{101}d_{max}$.
+
+\section{Permutation Model}
+
+According to our choice of $H$, $n'=|V_H|$ is the largest number from $\{1,\ldots,n\}$ s.t.:
+\begin{gather}
+    \deg(n')=\frac{pn}{n'^\beta}\geq d_0
+    \qquad n'\approx(pn/d_0)^{1/\beta}\\
+    \vol(H)=\sum_{v=1}^{n'}{\frac{pn}{v^\beta}}=pnH_{n',\beta}=d_0n'^\beta H_{n',\beta}\\
+    \vol(S)=s\frac{\vol(H)}{n'}
+\end{gather}
+
+We can apply~\autoref{thm:gms} to show small constant edge expansion of $H$,
+as long as $d_0\geq 3$. For larger expansion we have the following theorem.
+
+\begin{theorem}[Existence of an edge expander]
+    \label{thm:powerlaw-permutation-edge-expansion}
+    $\forall 0<p<1\;\exists d_0=d_0(p,n,\beta)\;\forall\delta>0\;\exists\gamma,\epsilon>0:$
+    let $G$ be a random power-law graph where each vertex $v$ has $\deg(v)=pnv^{-\beta}$,
+    and $H$ is its induced subgraph of size $n'$ obtained by retaining vertices of degree at least $d_0$.
+    
+    Then if $\beta=0$, the whole graph $G$ is $(\epsilon n,\gamma)$ edge expander w.h.p.
+    
+    Otherwise, $H$ is $(\epsilon n',\gamma)$ edge expander w.h.p.
+    
+    When $\beta>1$, the additional requirement is $p\,\zeta(\beta)>2$.
+    More roughly, $\zeta(\beta)>2$ or $\beta<1.72$,
+    and the smaller $p$, the smaller $\beta$ for which subsets still expand.
+    \begin{gather}
+        n'=
+        \begin{cases}
+            n & \quad \text{if } \beta=0,\\
+            n/2 & \quad \text{if } \beta>0.
+        \end{cases}\\
+        d_0=
+        \begin{cases}
+            pn & \quad \text{if } \beta=0,\\
+            2^\beta pn^{1-\beta} & \quad \text{if } \beta>0.
+        \end{cases}\\
+        d=
+        \begin{cases}
+            d_0\\
+            d_0/(1-\beta)\\
+            d_0\ln n'\\
+            d_0\,\zeta(\beta)\,n'^{\beta-1}
+        \end{cases}=
+        \begin{cases}
+            pn & \quad \text{if } \beta=0,\\
+            \frac{2^\beta p}{1-\beta}n^{1-\beta} & \quad \text{if } 0<\beta<1,\\
+            2p\ln(n/2) & \quad \text{if } \beta=1,\\
+            2p\,\zeta(\beta) & \quad \text{if } \beta>1.
+        \end{cases}\\
+        \gamma=\begin{cases}
+            d-2-\delta & \quad \text{if } \beta=0,\\
+            d/2 & \quad \text{if } \beta>0.
+        \end{cases}
+    \end{gather}
+\end{theorem}
+
+\begin{theorem}[Existence of a vertex expander]
+    \label{thm:powerlaw-permutation-vertex-expansion}
+    $\forall 0<p<1\;\exists d_0=d_0(p,n,\beta)\;\forall\delta>0\;\exists\gamma,\epsilon>0:$
+    let $G$ be a random power-law graph where each vertex $v$ has $\deg(v)=pnv^{-\beta}$,
+    and $H$ is its induced subgraph of size $n'$ obtained by retaining vertices of degree at least $d_0$.
+    
+    Then if $\beta=0$, the whole graph $G$ is $(\epsilon n,\gamma)$ vertex expander w.h.p.
+    
+    Otherwise, if $0<\beta<1$, $H$ is $(\epsilon n',\gamma)$ vertex expander w.h.p.
+    At the same time, either $\epsilon=1/2$ and $\gamma=1-\delta$,
+    or $\epsilon$ is sufficiently small and
+    \begin{equation}
+        \gamma=\begin{cases}
+            d/2-2-\delta & \quad \text{if } \beta=0,\\
+            d_0/2-2-\delta & \quad \text{if } 0<\beta<1.
+        \end{cases}
+    \end{equation}
+\end{theorem}
+
+The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutation-vertex-expansion}.
+
+\begin{proof}[Proof of~\autoref{thm:powerlaw-permutation-edge-expansion}]
+    \textbf{Case $\beta=0$:}
+    $\deg(v)=pn$ for each $v\in V$, so we choose $d_0=pn$, then trivially $H=G$ and $n'=n$.
+    This reduces the proof to known case of regular graphs described in~\autoref{subsec:edge-expansion-reg}.
+    
+    As for the other cases when $\beta>0$, we want our subgraph $H$ to have linear size, so we need to choose appropriate $d_0$:
+    \begin{gather*}
+        n'=(pn/d_0)^{1/\beta}=cn\\
+        d_0=\frac{pn}{(cn)^\beta}=\frac{p}{c^\beta}n^{1-\beta}
+    \end{gather*}
+    Fixing $c=1/2$ gives:
+    \begin{gather*}
+        n'=n/2\\
+        d_0=2^\beta pn^{1-\beta}=2pn'^{1-\beta}
+    \end{gather*}
+    
+    $\Pr_G[H\text{ is not }(\epsilon n',\gamma)\text{ edge expander}]
+    =\sum_{s=1}^{\epsilon n'}{
+        \binom{n'}{s}
+        \Pr_{G,S}[|e(S,V_H\backslash S)| < \gamma s]
+    }=$
+    
+    $\qquad=\sum_{s=1}^{\epsilon n'}{
+        \binom{n'}{s}
+        \Pr_{G,S}\left[|e(S,S)|\geq\frac{\vol(S)-\gamma s}{2}\right]
+    }\leq$
+    
+    $\qquad\leq\sum_{s=1}^{\epsilon n'}{
+        \binom{n'}{s}
+        \frac{\binom{\vol(H)/2}{(\vol(S)-\gamma s)/2}\binom{\vol(H)-(\vol(S)-\gamma s)}{\gamma s}}{\binom{\vol(H)}{\vol(S)}}
+    }\leq$
+    
+    $\qquad\leq\sum_{s=1}^{\epsilon n'}{
+        \left(\frac{en'}{s}\right)^s
+        \frac{
+            \left(e\frac{\vol(H)}{\vol(S)-\gamma s}\right)^{(\vol(S)-\gamma s)/2}
+            \left(e\frac{\vol(H)-(\vol(S)-\gamma s)}{\gamma s}\right)^{\gamma s}
+        }
+        {\left(\frac{\vol(H)}{\vol(S)}\right)^{\vol(S)}}
+    }\leq$
+    
+    $\qquad\leq\sum_{s=1}^{\epsilon n'}{\left(
+        \frac{en'}{s}
+        \frac{
+            \left(\frac{e\vol(H)}{(\vol(H)/n'-\gamma)s}\right)^{(\vol(H)/n'-\gamma)/2}
+            \left(\frac{e\vol(H)}{\gamma s}\right)^{\gamma}
+        }
+        {\left(\frac{n'}{s}\right)^{\vol(H)/n'}}
+    \right)^s}=$
+
+    $\qquad=\sum_{s=1}^{\epsilon n'}{\left(
+        \frac{e^{1+\gamma/2}}{\gamma^\gamma}
+        e^{d/2}
+        \left(\frac{1}{d-\gamma}\right)^{(d-\gamma)/2}
+        \left(\frac{\vol(H)}{s}\right)^{(d+\gamma)/2}
+        \left(\frac{s}{n'}\right)^{d-1}
+    \right)^s}=$
+
+    $\qquad=\sum_{s=1}^{\epsilon n'}{\left(
+    \frac{e^{1+\gamma/2}}{\gamma^\gamma}
+    e^{d/2}
+    \frac{d^{(d+\gamma)/2}}{(d-\gamma)^{(d-\gamma)/2}}
+    \left(\frac{s}{n'}\right)^{d/2-\gamma/2-1}
+    \right)^s}$,
+    
+    where $d=\vol(H)/n'$ is the average degree of $H$.
+    
+    Unfortunately, we cannot use~\autoref{pro:bound-prob-large-sets}
+    because of the condition $c_1=o\left(n'^{c_2-1}\right)$.
+    
+    In order to upper bound the probability of $H$ not being an edge expander we need
+    \begin{equation}
+        \label{eq:powerlaw-permutation-d-req}
+        d-\gamma-2>0
+    \end{equation}
+    
+    Let $\gamma=d/2$ so we can simplify further.
+    Note that~\eqref{eq:powerlaw-permutation-d-req} becomes $d>4$.
+    
+    $\Pr_G[H\text{ is not }(\epsilon n',\gamma)\text{ edge expander}]\leq\sum_{s=1}^{\epsilon n'}{\left(
+        \frac{e^{1+d/4}}{(d/2)^{d/2}}
+        e^{d/2}
+        \frac{d^{3d/4}}{(d/2)^{d/4}}
+        \left(\frac{s}{n'}\right)^{d/4-1}
+    \right)^s}=$
+    
+    $\qquad=\sum_{s=1}^{\epsilon n'}{\left(
+        e
+        (2e)^{3d/4}
+        \left(\frac{s}{n'}\right)^{d/4-1}
+    \right)^s}$
+
+    What's left to argue is that in all cases this expression may be upper bounded by $o(1)$, while also maintaining $d>4$.
+    
+    \textbf{Case $0<\beta<1$:}
+    \begin{gather*}
+        \vol(H)=\frac{d_0}{1-\beta}n'\\
+        d=\frac{d_0}{1-\beta}=\frac{2p}{1-\beta}n'^{1-\beta}=\Theta(n'^{1-\beta})
+    \end{gather*}
+    
+    Clearly, our choice of $d_0$ satisfies~\eqref{eq:powerlaw-permutation-d-req}.
+
+    As for the summation, we consider small and large values of $s$ separately.
+    \begin{itemize}
+        \item $s\leq\sqrt{n'}:
+        \sum_{s=1}^{\sqrt{n'}}{\left(
+            e
+            (2e)^{3d/4}
+            \left(\frac{s}{n'}\right)^{d/4-1}
+        \right)^s}
+        \leq e^{\sqrt{n'}}(2e)^{\sqrt{n'}3d/4}\sum_{s=1}^{\sqrt{n'}}{
+            \left(\frac{s}{n'}\right)^{(d/4-1)s}
+        }$
+    
+        $\qquad\leq e^{\sqrt{n'}}(2e)^{\sqrt{n'}3d/4}\sum_{s=1}^{\sqrt{n'}}{
+            \left(\frac{1}{\sqrt{n'}}\right)^{d/4-1}
+        }$
+
+        $\qquad\leq e^{\sqrt{n'}}(2e)^{\sqrt{n'}3d/4}
+        \frac{\sqrt{n'}}{n'^{d/4-1}}$
+        
+        $\qquad=e^{n'^{1/2}}(2e)^{\frac{3}{4}\Theta(n'^{3/2-\beta})}
+        \frac{1}{n'^{\Theta(n'^{1-\beta})/4-3/2}}=o(1)$
+
+        \item otherwise:
+        $\sum_{s=\sqrt{n'}+1}^{\epsilon n'}{\left(
+            e
+            (2e)^{3d/4}
+            \left(\frac{s}{n'}\right)^{d/4-1}
+        \right)^s}
+        <\sum_{s=\sqrt{n'}+1}^{\epsilon n'}{10^{-s}}\leq\frac{\epsilon n'}{10^{\sqrt{n'}}}=o(1)$
+        
+        For this we need:
+        $e(2e)^{3d/4}\epsilon^{d/4-1}<\frac{1}{10}$, or
+        $\frac{((2e)^3\epsilon)^{d/4}}{\epsilon}<\frac{1}{10e}$.
+        
+        We can choose $\epsilon=\frac{1}{10(2e)^3}$, and we are done because $d=\Theta(n'^{1-\beta})$.
+    \end{itemize}
+    
+    $\Pr_G[H\text{ is not }(\epsilon n',\gamma)\text{ edge expander}]\leq o(1)$.
+    
+    \textbf{Case $\beta=1$:}
+    \begin{gather*}
+        n'=pn/d_0\\
+        \vol(H)=d_0n'\ln n'\\
+        d=\frac{\vol(H)}{n'}=d_0\ln n'=\Theta(n'^{1-\beta}\ln n')
+    \end{gather*}
+    
+    This is identical to the previous case $0<\beta<1$.
+    
+    \textbf{Case $\beta>1$:}
+    \begin{gather*}
+        \vol(H)=\zeta(\beta)\,d_0n'^\beta\\
+        d_0=2pn'^{1-\beta}\\
+        d=\zeta(\beta)\,d_0n'^{\beta-1}=2p\,\zeta(\beta)=O(1)
+    \end{gather*}
+    Here we get an additional requirement $p\,\zeta(\beta)>2$, because we need $d>4$.
+    As~$0<p<1$ and $\zeta(\beta)$ is monotonically decreasing, it serves as an upper bound for $\beta$.
+
+    Finally, let $c_1=e(2e)^{3d/4}$, $c_2=d/4-1$ be some positive constants,
+    then for sufficiently small $\epsilon$:
+
+    $\Pr_G[H\text{ is not }(\epsilon n',\gamma)\text{ edge expander}]
+    \leq\sum_{s=1}^{\epsilon n'}{\left(c_1\left(\frac{s}{n'}\right)^{c_2}\right)^s}=o(1)$.
+    
+    More precisely, $c_1\epsilon^{c_2}<1/10$, or
+    $\epsilon=(c_1c_3)^{-1/c_2}$ for some $c_3>10$.
+\end{proof}
+
+\begin{proof}[Proof of~\autoref{thm:powerlaw-permutation-vertex-expansion}]
+    \label{prf:powerlaw-permutation-vertex-expansion}
+    The approach is identical to~\autoref{thm:reg-vertex-expansion},
+    but $d$ perfect matchings on $n$~vertices
+    are replaced by a single perfect matching on $\vol(H)$ mini-vertices,
+    which correspond to $n'$ vertices of $H$.
+    
+    When $\beta=0$, $G$ is $pn$-regular graph, so the original proof
+    with~\autoref{pro:bound-prob-small-sets}
+    or~\autoref{pro:bound-prob-large-sets} suffice.
+    
+    Otherwise, $\beta>0$.
+    For any $S\subset V_H$ of size $|S|=s\leq\epsilon n'$
+    and any $T\subset V_H$ of size $(1+\gamma)s$ we have:
+    \begin{gather}
+        d=\frac{\vol(H)}{n'}\\
+        \vol(S)=sd\\
+        \vol(T)=(1+\gamma)sd
+    \end{gather}
+    
+    All mini-vertices from $S$ are matched to mini-vertices in $T$ with probability:
+    
+    $\Pr_{G,S,T}[N_H(S)\subseteq T]\leq\left(\frac{\vol(T)}{\vol(H)}\right)^{\vol(S)/2}$
+    
+    As for the number of sets $S$ of a given size (the same goes for $T$),
+    $\binom{n'}{s}$ would only work for regular graphs,
+    while $\binom{\vol(H)}{\vol(S)}$ would overcount because mini-vertices
+    corresponding to the same vertex in $H$ are indistinguishable.
+    Instead we use the trick from~\cite{gms03} by taking
+    the minimum degree $d_0$ into account:
+    
+    $\Pr_G[\exists\text{ non-expading }S\text{ of size }s]
+    \leq\binom{\vol(H)/d_0}{\vol(S)/d_0}
+    \binom{\vol(H)/d_0}{\vol(T)/d_0}
+    \left(\frac{\vol(T)}{\vol(H)}\right)^{\vol(S)/2}\leq$
+    
+    $\qquad\leq\left(\frac{en'}{s}\right)^{sd/d_0}
+    \left(\frac{en'}{(1+\gamma)s}\right)^{(1+\gamma)sd/d_0}
+    \left(\frac{(1+\gamma)s}{n'}\right)^{sd/2}=$
+    
+    $\qquad=\left(
+        \left(\frac{en'}{s}\right)^{(2+\gamma)d/d_0}
+        \left(\frac{1}{1+\gamma}\right)^{(1+\gamma)d/d_0}
+        \left(\frac{(1+\gamma)s}{n'}\right)^{d/2}
+    \right)^s=$
+    
+    $\qquad=\left(
+        e^{(2+\gamma)d/d_0}
+        (1+\gamma)^{d(1/2-(1+\gamma)/d_0)}
+        \left(\frac{s}{n'}\right)^{d(1/2-(2+\gamma)/d_0)}
+    \right)^s$.
+    
+    In order to proceed we need this exponent to be positive:
+    \begin{gather}
+        d(1/2-(2+\gamma)/d_0)>0\\
+        0\leq\gamma<d_0/2-2
+    \end{gather}
+    Note that this requires $d_0>4$, while similar theorems
+    \ref{thm:reg-vertex-expansion} and~\ref{thm:gms} ask for $d_0\geq 3$.
+    
+    When $\beta>0$, it translates into:
+    \begin{gather}
+        d_0=2^\beta pn^{1-\beta}>4\\
+        n^{1-\beta}>2^{2-\beta}\\
+        \beta<1
+    \end{gather}
+    
+    $\Pr_G[G\text{ is not }(\alpha n,\gamma)\text{ vertex expander}]
+    \leq\sum_{s=1}^{\epsilon n'}{\Pr_G[\exists\text{ non-expading }S\text{ of size }s]}=o(1)$.
+    
+    This final step may be achieved in two ways.
+    First, we may apply~\autoref{pro:bound-prob-small-sets},
+    then $\epsilon$ must be some small constant.
+    Secondly, it also follows from~\autoref{pro:bound-prob-large-sets}, but we
+    need to verify $c_1=o\left(n'^{c_2-1}\right)$ and $c_2>\max\{1,\log c_1\}$:
+    \begin{gather*}
+        c_1=e^{(2+\gamma)d/d_0}(1+\gamma)^{d(1/2-(1+\gamma)/d_0)}\\
+        \log c_1=(\log e)(2+\gamma)d/d_0+(\log(1+\gamma))(d/2-(1+\gamma)d/d_0)\\
+        c_2=d/2-(2+\gamma)d/d_0\\
+        c_2-\log c_1=
+        d/2-(2+\gamma)d/d_0
+        -(\log e)(2+\gamma)d/d_0
+        -(\log(1+\gamma))(d/2-(1+\gamma)d/d_0)\\
+        c_2-\log c_1>0,\text{ for any }\gamma<1,
+    \end{gather*}
+    In this case we get $\epsilon=1/2$, but both conditions
+    are satisfied only when $\gamma<1$.
+\end{proof}
+
+\subsection{Error from Rounding Degrees}
+\label{subsec:powerlaw-permutation-rounding-error}
+
+To get the exact degree sequence, one needs to round down
+the expression~\eqref{eq:powerlaw-permutation-deg} for $\deg(v)$.
+In this case the error of $\vol(G)$ is at most $n$.
+For our choice of $d_0$ this error is negligible compared to $\vol(H)$
+when $0\leq\beta\leq1$, but it might be significant otherwise:
+\begin{equation}
+    \vol(H)=
+    \begin{cases}
+        \Theta\left(n^2\right) & \quad \text{if } \beta=0,\\
+        \Theta\left(n^{2-\beta}\right) & \quad \text{if } 0<\beta<1,\\
+        \Theta(n \log n) & \quad \text{if } \beta=1,\\
+        \Theta(n) & \quad \text{if } \beta>1.
+    \end{cases}
+\end{equation}
+
+\section{\texorpdfstring{``Octopus''}{"Octopus"} Graphs}
+
+The core of the ``octopus'' graph is defined as an induced subgraph
+with all the vertices of degree at least $d_0=n^{1/\log\log n}$.
+
+%The size of the core is $n^{c/\log\log n}$ and the diameter is $O(\log\log n)$.
+
+%Almost all vertices are within distance $O(\log\log n)$ of the core
+%although there are vertices at distance $\Theta(\log n)$ from the core. (explain that it's for diam)
+
+The number of vertices of degree more than $d$
+is about $\left(\frac{\beta-2}{\beta-1}\right)^{\beta-1}n$.
+\begin{gather*}
+    w_x=\frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}x^{-1/(\beta-1)}>d\\
+    \frac{\beta-2}{\beta-1}n^{\frac{1}{\beta-1}}>x^{1/(\beta-1)}\\
+    x<\left(\frac{\beta-2}{\beta-1}\right)^{\beta-1}n
+\end{gather*}
+
+Analogously, $i_1$ is the index of the last vertex included in the core:
+\begin{gather*}
+    w_x=\frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}x^{-1/(\beta-1)}\geq n^{1/\log\log n}=d_0\\
+    \frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}-1/\log\log n}\geq x^{1/(\beta-1)}\\
+    x\leq\left(\frac{\beta-2}{\beta-1}d\right)^{\beta-1}n^{1-\frac{\beta-1}{\log\log n}}=i_1
+\end{gather*}
+
+$i_1\leq n$ implies a restriction on the average degree:
+\begin{equation}
+    d\leq\frac{\beta-1}{\beta-2}n^{1/\log\log n}
+\end{equation}
+
+By our assumptions: $i_1=i_0\left(\frac{d_{max}}{n^{1/\log\log n}}\right)^{\beta-1}\gg i_0$.
+
+Let $n'$ denote the size of the core.
+
+%\cite{cl04} claims that:
+%\begin{gather}
+%    n'=n^{c/log\log n}\\
+%    \log n'=c\log n/\log\log n
+%\end{gather}
+%Alternatively, we can say:
+\begin{gather}
+    n'=i_1-i_0\\
+    \log n'\approx\log i_1\approx\log n\left(1-\frac{\beta-1}{\log\log n}\right)
+\end{gather}
+
+The average degree of the core:
+
+$\frac{\sum_{k=i_0}^{i_1}{w_i}}{i_1-i_0}
+\approx\frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}\frac{1}{i_1}
+\sum_{k=1}^{i_1}{k^{-1/(\beta-1)}}
+\approx\frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}\frac{1}{i_1}
+\frac{i_1^{1-1/(\beta-1)}}{(\beta-2)/(\beta-1)}=$
+
+$\qquad=d\left(\frac{n}{i_1}\right)^{\frac{1}{\beta-1}}
+=d\left(\left(\frac{\beta-2}{\beta-1}d\right)^{\beta-1}n^{-\frac{\beta-1}{\log\log n}}\right)^{-\frac{1}{\beta-1}}
+=d\left(\frac{\beta-2}{\beta-1}d\right)^{-1}n^{1/\log\log n}=$
+
+$\qquad=\frac{\beta-1}{\beta-2}n^{1/\log\log n}=\omega(\log n')$
+
+As a result, the core is edge expander w.h.p. by~\autoref{lem:coin-toss-lemma-d}.
+
+Moreover, this core contains $G(n'',p)$ by~\cite{cl04}:
+
+$n''p=\left(cnd_0^{1-\beta}\right)\frac{d_0^2}{dn}
+=\left(cn^{1+(1-\beta)/\log\log n}\right)\frac{n^{2/\log\log n}}{dn}
+=\frac{c}{d}n^{(3-\beta)/\log\log n}=$
+
+$\qquad=\frac{\beta-2}{\beta-1}n^{\frac{1}{\beta-1}+(3-\beta)/\log\log n}
+=\omega(\log n'')$
+\begin{equation}
+    \log n''=\log d+\log n(\frac{1}{\beta-1}+1+(1-\beta)/\log\log n)
+\end{equation}
+%$\frac{\log n''}{\log pn''}=\frac{\log n}{\log n/\log\log n}=\log\log ns$
+
+\cite{cl04} uses this fact to prove $O(\log\log n)$ diameter of the core.
+
+Thus, we can apply~\autoref{thm:kri-gnp} to get large vertex expander inside of the core,
+which could serve as an alternative step for the proof of $O(\log n)$ diameter
+of the ``octopus'' graph.
+
+\section{Diameter of Vertex Expanders}
+
+In this section we focus on $(\epsilon n,\gamma)$ vertex expanders,
+especially on the case $\epsilon<1/2$.
+
+First, consider an example: a graph $G$ that consists of two disconnected
+$(n/4,\gamma)$ vertex expanders of size $n/2$ each.
+Any subset of $G$ of size up to $n/4$ is the union of subsets of these two parts,
+and it expands proportionally.
+Therefore, $G$ is $(n/4,\gamma)$ vertex expander as well,
+and yet it is not connected.
+
+In general, when $\epsilon\leq1/4$, the connectivity of
+$(\epsilon n,\gamma)$ vertex expander is not guaranteed.
+
+A well known fact about $(n/2,\gamma)$ vertex expanders is that
+they have diameter $O(\log n)$, see for example~\cite{rao12,hlw06}.
+We extend on this by demonstrating that the diameter is still $O(\log n)$
+even for small constant $\epsilon<1/2$, assuming the graph is connected.
+
+\begin{theorem}
+    \label{thm:vertex-expander-diameter}
+    Let $G=(V,E)$ be a connected $(s(n),\gamma)$ vertex expander of size $n$,
+    where $s(n)\leq n/2$ and $\gamma=\Omega(1)$.
+    Then the diameter of $G$ is $O\left(\frac{n}{s(n)}\log s(n)\right)$.
+\end{theorem}
+
+\begin{corollary}
+    The diameter of a connected $(\epsilon n,\gamma)$ vertex expander of size $n$,
+    where $\epsilon\leq1/2$ and $\gamma$ are some positive constants, is $O(\log n)$.
+\end{corollary}
+
+Similarly, $s(n)=\Theta\left(\frac{n}{\log n}\right)$ gives us
+diameter $O\left(\log^2n\right)$,
+and $s(n)=\Theta(\sqrt{n})$ gives $O\left(\sqrt{n}\log n\right)$.
+We now prove an intermediate result needed for the theorem.
+
+\begin{lemma}
+    \label{lem:vertex-expander-partitioning}
+    If $G=(V,E)$ is a connected $(s(n),\gamma)$ vertex expander,
+    then there exists a partitioning $\{S_1,\ldots,S_k\}$ of $V$,
+    such that $k=O(n/s(n))$ and each $S_i$ has diameter $O(\log s(n))$.
+\end{lemma}
+
+\begin{proof}
+    Let $B(v,r)=\{u\in V\;|\;\dist(v,u)\leq r\}$ denote
+    a ball of radius $r\geq 0$ around vertex $v$.
+    
+    For any $v\in V$ and $r\geq 1$, if $|B(v,r-1)|\leq s(n)$,
+    then $|B(v,r)|\geq\min\left\{s(n),(1+\gamma)^r\right\}$
+    by the expansion property of $G$.
+    As all subsets of size up to $s(n)$ are expanding, there exists
+    \begin{equation}
+        r_0=\ceil{\log_{1+\gamma}s(n)}=\Theta(\log s(n))
+    \end{equation}
+    such that $|B(v,r_0)|\geq s(n)$. The diameter of $B(v,r_0)$ is $O(r_0)$.
+    
+    We maintain an invariant that all $S_i$ are disjoint
+    and have diameter $O(r_0)$ throughout the following partitioning process.
+    
+    Begin with arbitrary $v_1\in V$ and select $S_1=B(v_1,r_0)$.
+    As long as there is some other vertex $v$ whose $B(v,r_0)$ contains
+    at least $s(n)/2$ of not yet selected vertices,
+    add these new vertices to the next set $S_i$.
+    We will stop after $k\leq2n/s(n)$ steps.
+    Every remaining vertex $u$ must be within distance $r_0$ from some $S_j$,
+    so we add each such $u$ to the corresponding~$S_j$.
+\end{proof}
+
+\begin{proof}[Proof of~\autoref{thm:vertex-expander-diameter}]
+    \autoref{lem:vertex-expander-partitioning} gives us
+    the partitioning $\{S_1,\ldots,S_k\}$ of $V$.
+    We create a~graph $G'$ of size $k$ from $G$ by contracting each $S_i$
+    into a single vertex and merging multiple edges.
+    Note that $G'$ is connected by construction.
+    
+    Now consider arbitrary $u,v$ from $G$. Clearly, the distance between
+    their corresponding vertices in $G'$ is at most $k$.
+    Let $D$ be the maximum diameter of any $S_i$.
+    Then $\dist(u,v)$ in $G$ is at most $k(2D+1)$
+    which is exactly $O\left(\frac{n}{s(n)}\log s(n)\right)$.
+\end{proof}
