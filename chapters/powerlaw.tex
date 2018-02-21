@@ -1,3 +1,470 @@
-\chapter{Random Power Law Graphs}
+\chapter{Random Power-Law Graphs}
+\label{ch:powerlaw}
 
-Random Power Law Graphs.
+\section{Models of Graphs}
+
+We will work with models of graphs that define either degree sequences or frequencies of degrees.
+In the latter case one can easily obtain the degree sequence as well,
+e.g., the frequencies $(x_1,x_2,x_3)=(2,1,4)$ would be transformed into the degrees $(1,1,2,3,3,3,3)$.
+
+Given a degree sequence $(w_1,\ldots,w_n)$, there are several ways to generate corresponding random graphs $G=(V,E)$~\cite{hop08}.
+Depending on the particular model, this will be either exact (fixed) or expected degree sequence.
+
+All subsequent models possibly result in pseudographs --- multigraphs with self-loops.
+Therefore, the degree sequences are only required to be pseudographic:
+degrees must be non-negative, and in case of exact degrees, they should add up to an even number~\cite{hak62}.
+
+\subsection{Coin Toss Model}
+
+For each pair of vertices $i$ and $j$, we include the edge $(i,j)$ in the graph with probability
+\begin{equation}
+    p_{ij}=\Pr_G[(i,j)\in E]=
+    \begin{cases}
+        \frac{w_i w_j}{\sum_{k\in V}{w_k}} & \quad \text{if }i\neq j,\\
+        \frac{w_i^2}{2\sum_{k\in V}{w_k}} & \quad \text{otherwise}.
+    \end{cases}
+\end{equation}
+Given expression is a valid probability, if we have
+\begin{equation}
+    \label{eq:coin-toss-assumption}
+    \max_k w_k^2<\sum_{k\in V}{w_k}
+\end{equation}
+% http://mathworld.wolfram.com/GraphicSequence.html
+This assumption also implies that the sequence is graphic,
+i.e., realizable by some graph.
+
+The standard convention is that self-loop edges contribute 2 to the degrees of the nodes.
+Considering this, we show that the model is well-defined:
+\begin{equation}
+    \E_G[\deg(i)]=\sum_{j\neq i}{p_{ij}}+2p_{ii}
+    =\frac{\sum_{j\neq i}{w_i w_j}+w_i^2}{\sum_{j\in V}{w_j}}=w_i
+\end{equation}
+
+Alternatively, one can generate a graph by including some number of edges between $i$ and $j$
+according to a Poisson process with mean $\lambda=\frac{w_i w_j}{\sum_{k\in V}{w_k}}$.
+High degree vertices would then form a clique.
+
+In this model all edges are independent, and $(w_1,\ldots,w_n)$ are the expected degrees.
+
+\subsection{\texorpdfstring{$m$}{m} Edges Model}
+
+Uniformly at random we generate $m=\frac{1}{2}\sum_{k\in V}{w_k}$ edges by
+selecting vertices for endpoints with probability proportional to their degrees.
+In this case $w_i$'s are also expected degrees, however, we get
+the exact number of edges, which are no longer independent.
+
+\subsection{Permutation Model}
+\label{subsec:permutation-model}
+
+We create a sequence with $w_i$ mini-vertices for each vertex $i$,
+randomly permute it, and connect each consecutive
+non-intersecting pair of mini-vertices with an edge.
+Equivalently, one can choose a uniformly random perfect matching on this sequence.
+Then we put an edge between vertices $i$ and $j$ if at least one pair
+of mini-vertices corresponding to both of them is adjacent.
+
+This model guarantees the exact number of edges and they are not independent,
+but the degree sequence is now exact.
+
+\subsection{Full Graph Selection Model}
+
+We randomly pick a graph $G$ from a family of all graphs with given
+exact degree sequence, but it is usually not practical.
+
+In this chapter we will examine the properties of power-law graphs under different models.
+
+\section{Coin Toss Power-Law Model}
+\label{sec:powerlaw-coin-toss-model}
+
+We are given the expected degree sequence $(w_1,\ldots,w_n)$, where $w_v=\E[\deg(v)]$.
+\begin{gather}
+    \label{eq:powerlaw-coin-toss-edge-pr}
+    \Pr_G[(u,v)\in E]=\frac{w_u w_v}{\Vol(G)},
+    \quad\text{ assuming }\max_v w_v^2<\Vol(G)\\
+    \Vol(G)=\E_G[\vol(G)]=\E_G\left[\sum_{v\in V} \deg(v)\right]=\sum_{v\in V} w_v
+\end{gather}
+
+%Note that by~\eqref{eq:chernoff-combined}: $\Pr_G[|\vol(G)-\Vol(G)|\geq\delta]\leq2\,\exp(-\delta^2/(3\;\Vol(G)))$.
+
+Let the expected number of vertices with degree $x$ be equal $y$,
+which follows the power-law distribution for some super-constant $\alpha>0$ and constant $\beta>0$:
+\begin{equation}
+    \E_G[|\{v \in V\;|\;\deg(v)=x\}|]=y=\frac{e^\alpha}{x^\beta},
+    \quad\text{where }x\in\{1,\ldots,d_{max}\}.
+\end{equation}
+
+As mentioned earlier, this model is asymptotically identical
+to the one from~\cite{acl01}, whose properties are summarized in~\autoref{tab:graphs-properties-acl01}.
+
+\begin{table}
+    %\begin{shaded}
+    \begin{center}
+        \renewcommand*{\arraystretch}{1.3}
+        \begin{tabular}{|l|c|c|c|c|c|c|}
+            \hline
+            \multicolumn{1}{|r|}{$\beta$} & $(0;1)$ & $1$ & $(1;2)$ & $2$ & $(2;\beta_0)$ & $(\beta_0;\infty)$\\
+            \hline\hline
+            {\renewcommand{\arraystretch}{1.0}\begin{tabular}{@{}l@{}}the largest\\component\end{tabular}} & $n$ & \multicolumn{4}{|c|}{the giant component, $\Theta(n)$} & \multirow{2}{*}{\vspace{-4mm}$O\left(n^{2/\beta}\log n\right)$}\rule{0pt}{19pt}\\[0.7em]
+            \cline{1-6}
+            {\renewcommand{\arraystretch}{1.0}\begin{tabular}{@{}l@{}}the 2nd largest\\component\end{tabular}} & --- & \multicolumn{2}{|c|}{$O(1)$} & $O\left(\frac{\log n}{\log\log n}\right)$ & $O(\log n)$ &\rule{0pt}{20pt}\\[0.7em]
+            \cline{1-7}
+            \#vertices, $n$ & $\frac{e^{\alpha/\beta}}{1-\beta}$ & $\alpha e^\alpha$ & \multicolumn{4}{|c|}{$\zeta(\beta)e^\alpha$}\rule{0pt}{21pt}\\[0.7em]
+            \cline{1-7}
+            \#edges & \multicolumn{3}{|c|}{$\frac{1}{2}\frac{e^{2\alpha/\beta}}{2-\beta}$} & $\frac{1}{4}\alpha e^\alpha$ & \multicolumn{2}{|c|}{$\frac{1}{2}\zeta(\beta-1)e^\alpha$}\rule{0pt}{21pt}\\[0.7em]
+            \hline
+        \end{tabular}
+        \caption[Properties of power-law graphs from~\cite{acl01}.]
+                {Properties of power-law graphs from~\cite{acl01}, $\beta_0\approx3.4785$.}
+        \label{tab:graphs-properties-acl01}
+    \end{center}
+    %\end{shaded}
+\end{table}
+
+\subsection{Maximum Degree, Expected Size, and the Number of Edges}
+
+Like \cite{acl01}, we ignore isolated vertices, $y\geq1$
+and $0\leq\ln y=\alpha-\beta\ln x$, consequently:
+\begin{equation}
+    d_{max}=e^{\alpha/\beta}
+\end{equation}
+
+The size and the number of edges:
+\begin{equation}
+    \label{eq:powerlaw-coin-toss-n-e}
+    n=\sum_{x=1}^{e^{\alpha/\beta}}{\frac{e^\alpha}{x^\beta}}
+    \qquad \E_G[m]=\frac{\Vol(G)}{2}=\frac{1}{2}\sum_{x=1}^{e^{\alpha/\beta}}{x\frac{e^\alpha}{x^\beta}}
+\end{equation}
+
+%These values of $d_{max}$ and $\Vol(G)$ do not satisfy~\eqref{eq:coin-toss-assumption}:
+%
+%$d_{max}^2=e^{2\alpha/\beta}>\Vol(G)$, when $0<\beta<1$ or $\beta=2$
+%
+%Erd\H{o}s-Gallai theorem (for simple graphs with integer $w_i$'s) gives the necessary and sufficient condition:
+%$\sum_{i=1}^{k}{w_i}\leq k(k-1)+\sum_{i=k+1}^{n}{\min(w_i,k)}$.
+%
+%The number of edge-vertex adjacencies among $k$ vertices of the highest degree$\leq\ldots$
+%
+%$n-1\geq w_1\geq w_2\geq\ldots\geq w_n$,
+%$\sum_{i=1}^n{w_i}$ is even
+
+To get some intuition about the density of such graphs,
+we consider the special case when $d_{max}=n$:
+\begin{gather}
+    n=\sum_{x=1}^{n}\frac{e^\alpha}{x^\beta}=e^\alpha H_{n,\beta} \qquad e^\alpha=\frac{n}{H_{n,\beta}}\\
+    \E_G[m]=\frac{1}{2}\E_G[\sum_{v \in V}\deg(v)]=\frac{1}{2}\sum_{x=1}^{n}x\frac{e^\alpha}{x^\beta}
+    =\frac{e^\alpha}{2}\sum_{x=1}^{n}x^{1-\beta}=\frac{e^\alpha}{2}H_{n,\beta-1}
+    =\frac{n}{2}\frac{H_{n,\beta-1}}{H_{n,\beta}}
+\end{gather}
+
+$H_{n,-1}=\frac{n(n+1)}{2},
+\qquad H_{n,0}=n,
+\qquad H_{n,1}=\log n+O(1),
+\qquad H_{n,\beta}=O(1)\text{, if }\beta>1.$
+
+\begin{equation}
+    \E_G[m]=
+    \begin{cases}
+        \Theta\left(n^2\right) & \quad \text{if } \beta=0,\\
+        \Theta\left(n^2/\log n\right) & \quad \text{if } \beta=1,\\
+        \Theta(n\log n) & \quad \text{if } \beta=2,\\
+        \Theta(n) & \quad \text{if } \beta>2.
+    \end{cases}
+\end{equation}
+
+\subsection{Expected Volume and Average Degree}
+
+When $n\to\infty$, the expected volume $\Vol(G)$ is well-defined only if $\beta>2$:
+\begin{gather}
+    \Vol(G)\approx\int_1^{\infty}{x\frac{e^\alpha}{x^\beta}}\,dx
+    =\frac{e^\alpha}{2-\beta}\left[ x^{-\beta+2} \right]_1^\infty
+    =\frac{e^\alpha}{\beta-2}
+\end{gather}
+On the other hand, considering $d_{max}=e^{\alpha/\beta}$ we get:
+\begin{equation}
+    \label{eq:powerlaw-coin-toss-vol}
+    \Vol(G)\approx\frac{e^\alpha}{2-\beta}\left(\left(e^{\alpha/\beta}\right)^{-\beta+2}-1\right)
+    =\frac{1}{2-\beta}\left(e^{2\alpha/\beta}-e^\alpha\right)
+\end{equation}
+The expected average degree:
+\begin{equation}
+    d=\frac{\Vol(G)}{n}
+\end{equation}
+The second-order average degree:
+\begin{equation}
+    \tilde{d}=\frac{\sum_{v\in V}{w_v^2}}{\Vol(G)}\approx
+    \begin{cases}
+        d\frac{(\beta-2)^2}{(\beta-1)(\beta-3)} & \quad \text{if } \beta>3\\
+        \frac{1}{2}d\ln \frac{2d_{max}}{d} & \quad \text{if } \beta=3\\
+        d^{\beta-2}\frac{(\beta-2)^{\beta-1}d_{max}^{3-\beta}}{(\beta-1)^{\beta-2}(3-\beta)} & \quad \text{if } 2<\beta<3
+    \end{cases}
+\end{equation}
+
+%\subsection{The Least and the Most Popular Vertices}
+%
+%$L_c = \{c\text{ least popular vertices}\}, M_c = \{c\text{ most popular vertices}\}$
+%OR "vertices w/ deg<=c"?
+%
+%$|L_c|=\sum_{x=1}^{c}\E[|\{v\in V\;|\;\deg(v)=x\}|]
+%\qquad |M_c|=...$
+%
+%\textbf{\#surviving edges, connectivity} $|E(L_c)|=...$
+%
+%$|E(L_c)|=$ like $\E[m]$ w/ limited sum \& prob. that edge stays in subset (via $\Vol(S)$)
+%
+%Connected components: 2nd largest<M (power-law),
+%or spanning tree \& matrix-tree thm (general expected degree sequences)
+%
+%$L_c$ is probably not a good expander.
+%Look for expander in $M_c$.
+%:TODO:
+%
+%\subsection{Dependence of Properties on \texorpdfstring{$\beta$}{b}}
+%
+%:TODO: \textbf{How do properties depend on beta? 0$\rightarrow$uniform}
+
+\section{Permutation Power-Law Model}
+
+In the permutation model each vertex $v\in\{1,\ldots,n\}$ has exactly
+$w_v$ neighbors chosen with the probability proportional to their degrees:
+\begin{equation}
+    \label{eq:powerlaw-permutation-deg}
+    \deg(v)=w_v=\frac{pn}{v^\beta},\quad 0<p\leq 1
+\end{equation}
+
+If $\beta=0$, the model is identical to $G(n,p)$:
+\begin{gather*}
+    w_v=pn
+    \qquad \vol(G)=pn^2
+    \qquad|E|=\frac{p n^2}{2}\\
+    \Pr_G[(u,v)\in E]=\frac{w_u w_v}{\sum_i w_i}=\frac{(pn)^2}{pn^2}=p
+\end{gather*}
+
+Note that the degrees $w_i$ should be integers so we have
+to round down~\eqref{eq:powerlaw-permutation-deg}. The issue of emerging error
+is addressed in~\autoref{subsec:powerlaw-permutation-rounding-error}.
+
+\section{k-CNF Power-Law Model}
+\label{sec:powerlaw-k-cnf-model}
+
+Generation of CNF $f$ having $m$ clauses with $k$ literals each is done by adding variable $i\in\{1,\ldots,n\}$
+with a random sign to the current clause $C\in\{C_1,\ldots,C_m\}$ at a position $t$, $1\leq t\leq k$, with probability
+$p_i=\frac{w_i}{\sum_{j=1}^{n}{w_j}}$, where $w_i=i^{-\beta}$~\cite{abl09}.
+
+If any resulting clause is a tautology (it contains both some variable and its negation) or simplifiable (there is the same literal at multiple positions),
+then it is discarded and regenerated from scratch. Essentially it means that we are choosing variables for each clause without replacement.
+
+\textit{The variable incidence graph (VIG)} $G(f)=(V,E)$ is defined on $V=\{1,\ldots,n\}$,
+and edge $(i,j)$ is added to $E$ whenever both $i$ and $j$ appear in the same clause.
+The signs of the literals are ignored in VIG, so we will ignore them as well,
+writing ``$i\in C$'' instead of ``$i\in C\lor-i\in C$''.
+\begin{gather}
+    \Pr_{G(f)}[(i,j)\in E]=1-\prod_C{(1-\Pr[i\in C\land j\in C])},\text{ for }i\neq j
+\end{gather}
+
+Let's assume $k=3$ for simplicity.
+
+$\Pr[i\in C\land j\in C]=\sum_{\substack{1\leq x\leq n\\x\notin\{i,j\}}}\left(
+    \Pr[C=(i,j,x)]+\Pr[C=(j,i,x)]+\ldots+\Pr[C=(x,j,i)]
+\right)$
+
+$p_x\leq1-p_i-p_j$
+
+$\Pr[C=(i,j,x)]=p_i\frac{p_j}{1-p_i}\frac{p_x}{1-p_i-p_j}$
+
+$\Pr[C=(i,x,j)]=p_i\frac{p_x}{1-p_i}\frac{p_j}{1-p_i-p_x}$, and so on.
+
+\subsection{Noncentral Hypergeometric Distribution}
+Sampling of elements from different classes with weights without replacement
+is captured by \textit{Wallenius' noncentral hypergeometric distribution}.
+
+We have $\sum_{i=1}^c{m_i}$ objects total from $c$ classes,
+$m_i$ is the number of objects of class $i$.
+$n$ objects are sampled without replacement.
+The probability that an object from class $i$ is sampled is proportional to $w_i$.
+
+If at step $t$ we have sampled $(x_{1,t},\ldots,x_{c,t})$ objects,
+i.e., exactly $x_{i,t}$ objects from class $i$,
+then the probability that the next draw gives an object from class $i$ is:
+\begin{equation}
+    \frac{(m_i-x_{i,t})w_i}{\sum_{j=1}^c{(m_j-x_{j,t})w_j}}
+\end{equation}
+
+For the multivariate case:
+\begin{gather}
+    \text{mwnchypg}(\mathbf{x};n,\mathbf{m},\mathbf{w})=
+    \left(\prod_{i=1}^c{\binom{m_i}{x_i}}\right)
+    \left(\int_0^1{\prod_{i=1}^c{(1-t^{w_i/d})^{x_i}}\,dt}\right)\\
+    d=\mathbf{w}(\mathbf{m}-\mathbf{x})=\sum_{i=1}^c{w_i(m_i-x_i)}
+\end{gather}
+The probability function can be calculated using a variety of methods:
+recursive calculation, binomial expansion methods,
+Taylor expansion methods, continued fraction expansion,
+and numerical integration~\cite{fog08}.
+At the same time direct formal analysis does not look promising.
+Instead, we can use the fact that the sequence of expected degrees
+in VIG $G(f)$ also follows power-law distribution.
+
+\begin{theorem}[Theorem 1 from~\cite{abl09}]
+    In the power-law model with continuous probability distribution
+    $\phi(x,\beta)=(1-\beta)x^{-\beta}$, when $n\to\infty$:
+    \begin{equation}
+        \Pr_f[\text{variable }i\text{ has }k\text{ occurrences}]\propto k^{-\alpha},
+        \quad\text{where }\alpha=1/\beta+1.
+    \end{equation}
+\end{theorem}
+
+Let $x_i$ be the number of occurrences/clauses with variable $i$.
+\begin{equation}
+    \Pr[x_i=k]=ck^{-\alpha}
+\end{equation}
+
+Events ``occurrence of $i$ in clause $C$'' are independent for all clauses,
+so the actual number of occurrences will be close to its expectation:
+
+$\E[x_i]=\sum_{k=1}^m{k\Pr[x_i=k]}=\sum_{k=1}^m{ck^{1-\alpha}}=cH_{m,\alpha-1}$
+
+For any pair $(i,j)$, if $x_i+x_j\geq m$, then $\Pr[(i,j)\in E]=1$ by the pigeonhole principle.
+Otherwise $x_i+x_j<m$ and:
+
+$\Pr_{G(f)}[(i,j)\in E]=\Pr[\exists C:i\in C\land j\in C]
+=1-\frac{\binom{m-x_i}{x_j}}{\binom{m}{x_j}}=$
+
+$\qquad=1-\frac{(m-x_i)!}{(m-x_i-x_j)!}\frac{(m-x_j)!}{m!}=$
+
+$\qquad=1-\prod_{k=0}^{x_j-1}{\frac{m-x_i-k}{m-k}}$.
+
+\section{\texorpdfstring{``Octopus''}{"Octopus"} Power-Law Graph Model}
+\label{sec:powerlaw-octopus-model}
+
+This expected degree model is found in~\cite{cl04}:
+\begin{gather}
+    \E_G[\deg(i)]=w_i=ci^{-1/(\beta-1)}\\
+    i_0\leq i<n+i_0\\
+    c=\frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}\\
+    i_0=n\left(\frac{d(\beta-2)}{d_{max}(\beta-1)}\right)^{\beta-1}
+\end{gather}
+The known results about the average distance and the diameter of resulting graphs
+are collected in~\autoref{tab:graphs-properties-cl04}.
+
+\begin{table}
+    \begin{center}
+        \renewcommand*{\arraystretch}{1.3}
+        \begin{tabular}{|l|c|c|c|}
+            \hline
+            \multicolumn{1}{|r|}{$\beta$} & $(2;3)$ & $3$ & $(3;\infty)$\\
+            \hline
+            \multicolumn{1}{|r|}{$\beta'$} & $(1/2;1)$ & $1/2$ & $(0;1/2)$\\
+            \hline\hline
+            average distance & $O(\log\log n)$ & $\Theta(\log n/\log\log n)$ & $\Theta(\log n/\log \tilde{d})$\\
+            \hline
+            diameter & \multicolumn{3}{|c|}{$\Theta(\log n)$}\\
+            \hline
+        \end{tabular}
+        \caption[Properties of power-law graphs from~\cite{cl04}.]
+                {Properties of power-law graphs from~\cite{cl04},\\$\beta'=\frac{1}{\beta-1}$ is the actual exponent.}
+        \label{tab:graphs-properties-cl04}
+    \end{center}
+\end{table}
+
+We consider the same specific family of such graphs, as in~\cite{cl04}, i.e.:
+\begin{gather}
+    2<\beta<3\implies\frac{1}{2}\leq\frac{1}{\beta-1}\leq 1\\
+    d>1\\
+    d_{max}\gg d\\
+    \log d_{max}\gg \log n/\log\log n
+\end{gather}
+
+The graphs are generated like in the coin toss model
+and \eqref{eq:coin-toss-assumption} is assumed to be true.
+
+Note that $d_{max}$ and $d$ are simply parameters of this model.
+
+The maximum degree $w_{i_0}=\frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}i_0^{-1/(\beta-1)}=d_{max}$.
+
+And the average degree is $\frac{1}{n}\sum_{k=i_0}^{n+i_0}{w_i}
+\approx\frac{1}{n}\sum_{k=1}^{n}{w_i}
+=\frac{1}{n}\sum_{k=1}^{n}{
+    \frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}k^{-1/(\beta-1)}
+}=$
+
+$\qquad=\frac{\beta-2}{\beta-1}\frac{d}{n^{(\beta-2)/(\beta-1)}}
+\sum_{k=1}^{n}{k^{-1/(\beta-1)}}\approx$
+    
+$\qquad\approx\frac{\beta-2}{\beta-1}\frac{d}{n^{(\beta-2)/(\beta-1)}}
+\frac{n^{1-1/(\beta-1)}}{1-1/(\beta-1)}=d$.
+
+\subsection{The Second-Order Average Degree}
+
+\cite{cl04} only states the final results, so we provide
+their derivation here for completeness.
+
+$\tilde{d}=\frac{1}{dn}\sum_{k=1}^{n}{w_i^2}
+=\frac{1}{dn}\sum_{k=1}^{n}{
+    \left(\frac{\beta-2}{\beta-1}\right)^2d^2n^{\frac{2}{\beta-1}}k^{-2/(\beta-1)}
+}=$
+
+$\quad=\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{1-2/(\beta-1)}}
+\sum_{k=1}^{n}{k^{-2/(\beta-1)}}$
+
+\textbf{Case $\beta>3$:}
+
+$\tilde{d}\approx\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{1-2/(\beta-1)}}
+\frac{n^{(\beta-3)/(\beta-1)}}{(\beta-3)/(\beta-1)}
+=\frac{(\beta-2)^2}{(\beta-1)(\beta-3)}d$
+
+\textbf{Case $\beta=3$:}
+
+$i_0=n\left(\frac{d}{2d_{max}}\right)^2$
+
+$\tilde{d}\approx\frac{d}{4}\sum_{k=i_0}^{n}{k^{-1}}\approx\frac{d}{4}(\ln n-\ln i_0)
+=\frac{d}{4}(\ln n-\ln n-2\ln\frac{d}{2d_{max}})=\frac{d}{2}\ln\frac{2d_{max}}{d}$
+
+\textbf{Case $2<\beta<3$:}
+
+$\tilde{d}\approx\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{(\beta-3)/(\beta-1)}}
+\sum_{k=i_0}^{n}{k^{-2/(\beta-1)}}\approx$
+
+$\qquad\approx\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{(\beta-3)/(\beta-1)}}
+\left(\frac{n^{(\beta-3)/(\beta-1)}}{(\beta-3)/(\beta-1)}
+    -\frac{i_0^{(\beta-3)/(\beta-1)}}{(\beta-3)/(\beta-1)}
+\right)\approx$
+
+$\qquad\approx-\frac{(\beta-2)^2}{(\beta-1)(\beta-3)}d
+\left(\frac{d(\beta-2)}{d_{max}(\beta-1)}\right)^{\beta-3}
+=\frac{(\beta-2)^{\beta-1}}{(\beta-1)^{\beta-2}(3-\beta)}
+d^{\beta-2}d_{max}^{3-\beta}$.
+
+\subsection{Diameter}
+
+\begin{theorem}[Theorem 2.6 from~\cite{cl04}]
+    Suppose a power-law random graph with exponent $\beta$ has average degree $d>1$
+    and maximum degree $d_{max}\gg n^{1/\log\log n}$.
+    If $2<\beta<3$, its diameter is $\Theta(\log n)$ w.h.p.
+\end{theorem}
+
+\begin{proof}[Proof outline]
+    The core of the ``octopus'' graph is defined to contain all vertices of degree
+    at least $n^{1/\log\log n}$.
+    Combining the following claims gives $O(\log n)$ diameter of the graph w.h.p.
+    
+    Claim 1: The diameter of the core is $O(\log\log n)$ w.h.p.
+    
+    Claim 2: Almost all vertices with degree at least $\log n$ are
+    within distance $O(\log\log n)$ from the core.
+    
+    Claim 3: Each vertex in the giant connected component is within distance
+    $O(\log n)$ from a vertex of degree at least $O(\log n)$.
+\end{proof}
+
+Such a specific structure explains the name of these graphs.
+
+%``Local sparsity'' property from~\cite{kri17} should be called ``not being locally sparse''.
+%Can we ``shave'' some extra edges off from very dense spots and apply~\autoref{thm:kri}?
+%
+%So $G\backslash L_c$ (popular nodes) has expander, and $M_c$ is its core (most popular nodes),
+%we want everyone in $G\backslash L_c$ to be connected to the core
+%(and $L_c$ might have sparse spots not connected to core),
+%then no matter how we split the core in some cut, there will be enough edges crossing this cut.
+%
+%Edge is in the transitive closure of $G\iff$ its endpoints are connected in $G$.
+%$A^2$ (includes the edges for all paths of length $\leq 2$) is not yet transitive closure (which can also use new edges).
