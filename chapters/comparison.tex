@@ -1,3 +1,108 @@
-\chapter{Comparison of The Graph Models}
+\chapter{Comparison of the Graph Models}
+\label{ch:comparison}
 
-Comparison of The Graph Models.
+We have briefly compared our findings to some previous papers in~\autoref{ch:intro}.
+Now we would like to address more correspondences, both quantitative and qualitative.
+
+\section{Overview of the Expansion Properties}
+
+As usual, we denote the size of the subgraphs $n'$,
+the minimum degree $d_0$ and the average degree $d$,
+the expansion $\gamma$, and $\epsilon,\delta>0$ are some arbitrary small constants.
+
+\subsection{Previously Known Results}
+
+We saw in~\autoref{ch:prelims} that random $d$-regular graphs are
+themselves $(\epsilon n,d-2-\delta)$ vertex and edge expanders.
+
+The model from~\cite{gms03} is similar to our coin toss model
+and it describes the graphs with a small constant conductance $0.0175$,
+which is a generalization of $(n/2,\gamma)$ edge expansion.
+
+Lastly, $G(n,p)$ graphs contain $(n'/2,\Theta(1))$ vertex expanders of linear size~\cite{kri17}.
+
+\subsection{Our Results}
+
+Graphs in the coin toss model contain $(n'/2,d/2-\delta)$ edge expanders.
+The size of these subgraphs is $n'=\Theta(n)$ when $\beta\leq 1.6$,
+but only $n'=\Theta\left(n^{1/\beta}\right)$ for larger $\beta$.
+
+In the permutation model, on the other hand, we were able to prove
+the existence of $(n'/2,d/2)$ edge expanders if $\beta<1.72$,
+and also both $(n'/2,1-\delta)$ and $(\epsilon n',d_0/2-2-\delta)$
+vertex expanders for $0<\beta<1$.
+The trade-off between the maximum size of expanding subsets
+and the expansion rate is the most apparent in this model.
+And as we know, any vertex expansion would imply the same edge expansion,
+but unluckily, we couldn't secure even weak vertex expansion for $\beta>1.72$.
+
+\section{Uniform Random Graphs}
+
+Although power-law graphs have less uniform structure than $G(n,p)$,
+we produced evidence that they are still random enough because of
+the large expanding subgraphs.
+
+$G(n,p)$ graphs have a sharp threshold for connectivity~\cite{er59} and
+become connected w.h.p. when $p=(1+\epsilon)\log n/n$, for $\epsilon>0$,
+that is, when the expected degrees are $d\approx pn>\log n$.
+It harmonizes with our \autoref{lem:coin-toss-lemma-d}, which explains
+that graphs with the expected average degree $d>10\log n$
+are $(n/2,d/2-\delta)$ edge expanders, for any small constant $\delta>0$.
+
+\autoref{thm:kri-gnp} from~\cite{kri17} adds to this by saying that
+$G(n,p)$ graph in supercritical regime $p=(1+\epsilon)/n$
+w.h.p. contains $(n'/2,\gamma)$ vertex expander on $n'=\Theta(n)$ vertices.
+
+The parameters are:
+$c_1=1+\epsilon,c_2=1+\epsilon^2/10$,
+$\alpha=\left(\frac{c_2}{5c_1}\right)^{c_2/(c_2-1)}$,
+and $\Delta=4\ln\frac{1}{\epsilon}$.
+
+In this case it guarantees the vertex expansion:
+\begin{equation}
+    \gamma=\frac{c_1-c_2}{\Delta\log_2{\frac{1}{\alpha}}}
+    =\frac{\epsilon-\epsilon^2/10}{
+        \left(4\ln\frac{1}{\epsilon}\right)
+        \frac{c_2}{c_2-1}
+        \log_2{\frac{5c_1}{c_2}}
+    }
+    =\frac{\epsilon-\epsilon^2/10}{
+        \left(4\ln\frac{1}{\epsilon}\right)
+        \frac{1+\epsilon^2/10}{\epsilon^2/10}
+        \log_2{\frac{5c_1}{c_2}}
+    }
+    <\frac{\epsilon}{8\ln(1/\epsilon)}
+\end{equation}
+which is less than 1 for $\epsilon<0.89$, so it is also similar to
+our $(n''/2,1-\delta)$ vertex expander for the permutation model
+with $0<\beta<1$, $n''=n/2$, and arbitrary small constant $\delta>0$.
+
+\section{Connected Components and the Coin Toss Model}
+
+\autoref{tab:models-comparison} highlights similarities between the sizes of our
+expanding subgraphs in the coin toss model from~\autoref{sec:powerlaw-coin-toss-model}
+and the largest connected components of power-law graphs from~\cite{acl01},
+although there are still some gaps.
+
+For example, \cite{acl01,cl06} claim that the giant component exists for $\beta\in(0;3.48)$.
+%Theorem 2 from~\cite{acl01} and Theorem 11.2 from~\cite{cl06}
+For $3.48<\beta<4$, the size of each connected component
+is at most $\Theta\left(n^{2/\beta}\log n\right)$,
+%Theorem 1 from~\cite{acl01}, Theorem 11.1 in~\cite{cl06}
+and for $\beta>4$ it is $\Theta\left(n^{2/(\beta+2)}\log n\right)$.
+
+Our proof provides a linear size edge expander only for $\beta$ up to $1.6$,
+and then we have a single jump to $\Theta\left(n^{1/\beta}\right)$, which is
+close to a square root of the size of the corresponding largest component.
+The conclusion here is that the largest connected components
+of power-law graphs have strong expansion properties,
+even though their average degree $d=\omega(1)$, so they are not sparse.
+
+\section{Coin Toss and Permutation Models}
+
+If we consider the graphs from permutation model when $p=1$,
+we notice that we get the same $(n'/2,d/2-\delta)$ edge expander
+as in the coin toss model for any $0<\beta\leq 1.6$.
+It demonstrates that power-law graphs with small $\beta$ possess
+a similar structure regardless of whether we define
+degrees or frequencies of degrees to follow a power law.
