@@ -1140,4 +1140,170 @@
     Text.
 \end{frame}
 
+\section{Snippets}
+\clearsubsecname
+
+\begin{frame}{\autotitle}
+    \emph{Emphasize} text, \alert{accent} parts or show \textbf{bold} results.
+    
+    \begin{itemize}
+        \item \textbf{Object:} abc.
+        \item \textbf{Characteristics:} abc.
+        \item \textbf{Goal:} abc.
+        \item \textbf{Novelty:} abc.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\autotitle}
+    \begin{columns}[T,onlytextwidth]
+        \column{0.33\textwidth}
+        Items
+        \begin{itemize}
+            \item Milk \item Eggs \item Potatoes
+        \end{itemize}
+        
+        \column{0.33\textwidth}
+        Enumerations
+        \begin{enumerate}
+            \item First, \item Second and \item Last.
+        \end{enumerate}
+        
+        \column{0.33\textwidth}
+        Descriptions
+        \begin{description}
+            \item[PowerPoint] Meeh.
+            \item[Beamer] Yeeeha.
+        \end{description}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{\autotitle}
+    \begin{itemize}[<+- | alert@+>]
+        \item \alert<4>{This is\only<4>{ really} important}
+        \item Now this
+        \item And now this
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\autotitle}
+    \begin{table}
+        \caption{Largest cities in the world (source: Wikipedia)}
+        \begin{tabular}{@{} lr @{}}
+            \toprule
+            City & Population\\
+            \midrule
+            Mexico City & 20,116,842\\
+            Shanghai & 19,210,000\\
+            Peking & 15,796,450\\
+            Istanbul & 14,160,467\\
+            \bottomrule
+        \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}{\autotitle}
+    Three different block environments are pre-defined and may be styled with an
+    optional background color.
+
+    \begin{columns}[T,onlytextwidth]
+        \column{0.5\textwidth}
+        \metroset{block=transparent}
+        
+        \begin{block}{Default}
+            [1] Block content.
+        \end{block}
+        
+        \begin{alertblock}{Alert}
+            [2] Block content.
+        \end{alertblock}
+        
+        \begin{exampleblock}{Example}
+            [3] Block content.
+        \end{exampleblock}
+        
+        \column{0.5\textwidth}
+        \metroset{block=fill}
+        
+        \begin{block}{Default}
+            [4] Block content.
+        \end{block}
+        
+        \begin{alertblock}{Alert}
+            [5] Block content.
+        \end{alertblock}
+        
+        \begin{exampleblock}{Example}
+            [6] Block content.
+        \end{exampleblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{\autotitle}
+    \begin{enumerate}
+        \item \textbf{Task 1}
+        \begin{itemize}
+            \item Subtask 1-1
+            \item Subtask 1-2
+        \end{itemize}
+        \item \textbf{Task 2}
+        \begin{itemize}
+            \item Subtask 2-1
+            \item Subtask 2-2
+            \item Subtask 2-3
+        \end{itemize}
+        \item \textbf{Task 3}
+        \begin{itemize}
+            \item Subtask 3-1
+            \item Subtask 3-2
+            \item Subtask 3-3
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{\autotitle}
+    \begin{theorem}
+        Abc.
+        \begin{align*}
+            \dot x = & \sigma (y-x)\\
+            \dot y = & x (r - z) - y\\
+            \dot z = & xy - bz
+        \end{align*}
+    \end{theorem}
+    
+    \begin{equation*}
+        e=\lim_{n\to\infty}\left(1+\frac{1}{n}\right)^n
+    \end{equation*}
+\end{frame}
+
+\begin{frame}{\autotitle}
+    \begin{lemma}
+        Abc.
+    \end{lemma}
+
+    \begin{proof}<2->
+        Abc.
+    \end{proof}
+
+    Text.
+\end{frame}
+
+\begin{frame}{\autotitle}
+    \centering
+    \begin{tabular}{|l|l|}
+        \hline
+        \textbf{Header 1} & \textbf{Header 2}\\
+        \hline
+        Sum & $b+a$\\
+        \hline
+        Subtraction & $a-b$\\
+        \hline
+        Product & $a*b$\\
+        \hline
+    \end{tabular}
+
+    \pause
+    
+    That's it.
+\end{frame}
+
 \end{document}
