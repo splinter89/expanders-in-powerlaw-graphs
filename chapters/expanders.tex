@@ -843,7 +843,7 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
     $\binom{n'}{s}$ would only work for regular graphs,
     while $\binom{\vol(H)}{\vol(S)}$ would overcount because mini-vertices
     corresponding to the same vertex in $H$ are indistinguishable.
-    Instead we use the trick from~\cite{gms03} by taking
+    Instead we use the trick as Gkantsidis et al.~\cite{gms03} by taking
     the minimum degree $d_0$ into account:
     
     $\Pr_G[\exists\text{ non-expading }S\text{ of size }s]
@@ -955,7 +955,7 @@ $i_1\leq n$ implies a restriction on the average degree:
 By our assumptions: $i_1=i_0\left(\frac{d_{max}}{n^{1/\log\log n}}\right)^{\beta-1}\gg i_0$.
 
 Let $n'$ denote the size of the core.
-%\cite{cl04} claims that:
+%Chung and Lu~\cite{cl04} claim that:
 %\begin{gather}
 %    n'=n^{c/log\log n}\\
 %    \log n'=c\log n/\log\log n
@@ -990,7 +990,7 @@ $n'p=\left(\frac{c}{d_0}\right)^{\beta-1}\frac{d_0^2}{dn}
 =\Theta\left(d^{\beta-2}n^{(3-\beta)/\log\log n}\right)
 =\omega(\log n)$
 
-\cite{cl04} uses this fact to prove $O(\log\log n)$ diameter of the core.
+Chung and Lu~\cite{cl04} use this fact to prove $O(\log\log n)$ diameter of the core.
 
 We can apply~\autoref{thm:kri-gnp} on this $G(n',p)$ to get linear size
 vertex expander of diameter $O(\log n)$ inside of the core.
@@ -1014,7 +1014,7 @@ In general, when $\epsilon\leq1/4$, the connectivity of
 $(\epsilon n,\gamma)$ vertex expander is not guaranteed.
 
 A well known fact about $(n/2,\gamma)$ vertex expanders is that
-they have diameter $O(\log n)$, see for example~\cite{rao12,hlw06}.
+they have diameter $O(\log n)$~\cite{rao12,hlw06}.
 We extend on this by demonstrating that the diameter is still $O(\log n)$
 even for small constant $\epsilon<1/2$, assuming the graph is connected.
 

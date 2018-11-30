@@ -141,7 +141,7 @@ Each subsequent bound will require more rigorous analysis.
 \end{proposition}
 
 \begin{proof}
-    The argument is identical to the one found in~\cite{gms03}.
+    The argument is identical to the known one~\cite{gms03}.
     
     For $s\geq1$, let's define $f(s)=\left(c_1(s/n)^{c_2}\right)^s$, then
     $S_n=\sum_{s=1}^{\alpha n}{f(s)}$.
@@ -301,17 +301,16 @@ then the expected number of edges in such graphs is $pN$.
 On the other hand, $G(n,m)$ describes the graphs with $n$ vertices and exactly $m$ edges.
 Each of $\binom{N}{m}$ possible graphs is chosen uniformly at random.
 
-\cite{er60} depicts the following structural properties of $G(n,p)$ graphs.
+Erd\H{o}s and R\'enyi~\cite{er60} depict the following structural properties of $G(n,p)$ graphs.
 When $p=o(1/n)$, the graph is simply a disjoint union of trees.
 Then consider the case $p=c/n$, where $c$ is some constant.
 If $c<1$, the size of the largest component is just $O(\log n)$,
 at the critical point $c=1$ its size is $\Theta\left(n^{2/3}\right)$,
 and a unique giant component of size $\Theta(n)$ emerges when $c>1$.
-Finally, \cite{er59} shows that the graphs are disconnected  w.h.p.
-when $p<(1-\epsilon)\log n/n$ and become connected w.h.p.
-when $p>(1+\epsilon)\log n/n$, for any $\epsilon>0$.
+Finally, the graphs are disconnected  w.h.p. when $p<(1-\epsilon)\log n/n$
+and become connected w.h.p. when $p>(1+\epsilon)\log n/n$, for any $\epsilon>0$~\cite{er59}.
 
-As per~\cite{cl01} and~\cite{cl04}, the diameter of $G(n,p)$ is
+As per Chung and Lu~\cite{cl01,cl04}, the diameter of $G(n,p)$ is
 $\Theta(\log n)$ when $p=c/n$, for some constant $c>1$,
 and $(1+o(1))\frac{\log n}{\log np}$ if $p=\omega(1/n)$.
 The diameter of a disconnected graph is assumed to be the maximum
@@ -373,7 +372,7 @@ First, we look at the combinatorial notions of expansion.
 
 \subsection{Spectral Expansion}
 
-\cite{chu97}: Let $\deg(v)$ be degree of the vertex $v$. Then the Laplacian of $G$ without loops or multiple edges:
+Let $\deg(v)$ be degree of the vertex $v$. Then the Laplacian of $G$ without loops or multiple edges~\cite{chu97}:
 \begin{equation}
     \Laplacian=T^{-\frac{1}{2}}LT^{-\frac{1}{2}}
 \end{equation}
@@ -471,7 +470,7 @@ contain expanding induced subgraphs with vertices of large degrees.
 
 \section{Expansion of Random Regular Graphs}
 
-\begin{theorem}[Theorem 4.16 from~\cite{hlw06}]
+\begin{theorem}[Theorem 4.16~\cite{hlw06}]
     $\forall d\geq3\;\forall \delta>0\;\exists\gamma,\alpha>0$ such that
     a random $d$-regular graph on $n$ vertices is
     $(\alpha n,\gamma)$ edge expander and $(\alpha n,\gamma)$ vertex expander w.h.p.,
@@ -718,10 +717,11 @@ so the subsets may be as large as $n/2$, but the expansion might be as small as 
 
 \section{Edge Expansion of Random Graphs With Given Degrees}
 
-\cite{gms03} deals with the power-law graphs and their model is based on~\cite{acl01}.
-However, the following result holds for random graphs with general degree sequences.
+Gkantsidis et al.~\cite{gms03} deal with the power-law graphs
+and their model is based on the one from Aiello et al.~\cite{acl01}.
+However, this following result holds for random graphs with general degree sequences.
 
-\begin{theorem}[Lemma 3.2 from~\cite{gms03}]
+\begin{theorem}[Lemma 3.2~\cite{gms03}]
     \label{thm:gms}
     Let $(w_1,\ldots,w_n)$ be a sequence of integers and
     \begin{gather}

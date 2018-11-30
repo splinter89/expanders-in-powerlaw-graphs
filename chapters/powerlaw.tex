@@ -93,8 +93,8 @@ which follows the power-law distribution for some super-constant $\alpha>0$ and 
     \quad\text{where }x\in\{1,\ldots,d_{max}\}.
 \end{equation}
 
-As mentioned earlier, this model is asymptotically identical
-to the one from~\cite{acl01}, whose properties are summarized in~\autoref{tab:graphs-properties-acl01}.
+As mentioned earlier, this model is asymptotically identical to the one
+used by Aiello et al.~\cite{acl01}, whose properties are summarized in~\autoref{tab:graphs-properties-acl01}.
 
 \begin{table}
     %\begin{shaded}
@@ -113,8 +113,8 @@ to the one from~\cite{acl01}, whose properties are summarized in~\autoref{tab:gr
             $|E|$ & \multicolumn{3}{|c|}{$\frac{1}{2}\frac{e^{2\alpha/\beta}}{2-\beta}$} & $\frac{1}{4}\alpha e^\alpha$ & \multicolumn{2}{|c|}{$\frac{1}{2}\zeta(\beta-1)e^\alpha$}\rule{0pt}{21pt}\\[0.7em]
             \hline
         \end{tabular}
-        \caption[Properties of power-law graphs from~\cite{acl01}.]
-                {Properties of power-law graphs from~\cite{acl01}, $\beta_0\approx3.4785$.}
+        \caption[Properties of power-law graphs~\cite{acl01}.]
+                {Properties of power-law graphs~\cite{acl01}, $\beta_0\approx3.4785$.}
         \label{tab:graphs-properties-acl01}
     \end{center}
     %\end{shaded}
@@ -122,7 +122,7 @@ to the one from~\cite{acl01}, whose properties are summarized in~\autoref{tab:gr
 
 \subsection{Maximum Degree, Expected Size, and the Number of Edges}
 
-Like~\cite{acl01}, we ignore isolated vertices, $y\geq1$
+Like Aiello et al.~\cite{acl01}, we ignore isolated vertices, $y\geq1$
 and $0\leq\ln y=\alpha-\beta\ln x$, consequently:
 \begin{equation}
     d_{max}=e^{\alpha/\beta}
@@ -305,7 +305,7 @@ At the same time direct formal analysis does not look promising.
 Instead, we can use the fact that the sequence of expected degrees
 in VIG $G(f)$ also follows power-law distribution.
 
-\begin{theorem}[Theorem 1 from~\cite{abl09}]
+\begin{theorem}[Theorem 1~\cite{abl09}]
     In the power-law model with continuous probability distribution
     $\phi(x,\beta)=(1-\beta)x^{-\beta}$, when $n\to\infty$:
     \begin{equation}
@@ -337,7 +337,7 @@ $\qquad=1-\prod_{k=0}^{x_j-1}{\frac{m-x_i-k}{m-k}}$.
 \section{\texorpdfstring{``Octopus''}{"Octopus"} Power-Law Graph Model}
 \label{sec:powerlaw-octopus-model}
 
-This expected degree model is found in~\cite{cl04}:
+This expected degree model was defined by Chung and Lu~\cite{cl04}:
 \begin{gather}
     \E_G[\deg(i)]=w_i=ci^{-1/(\beta-1)}\\
     i_0\leq i<n+i_0\\
@@ -354,20 +354,20 @@ are collected in~\autoref{tab:graphs-properties-cl04}.
             \hline
             \multicolumn{1}{|r|}{$\beta$} & $(2;3)$ & $3$ & $(3;\infty)$\\
             \hline
-            \multicolumn{1}{|r|}{$\beta'$} & $(1/2;1)$ & $1/2$ & $(0;1/2)$\\
+            \multicolumn{1}{|r|}{$\beta'=1/(\beta-1)$} & $(1/2;1)$ & $1/2$ & $(0;1/2)$\\
             \hline\hline
             average distance & $O(\log\log n)$ & $\Theta(\log n/\log\log n)$ & $\Theta(\log n/\log \tilde{d})$\\
             \hline
             diameter & \multicolumn{3}{|c|}{$\Theta(\log n)$}\\
             \hline
         \end{tabular}
-        \caption[Properties of power-law graphs from~\cite{cl04}.]
-                {Properties of power-law graphs from~\cite{cl04},\\$\beta'=\frac{1}{\beta-1}$ is the actual exponent.}
+        \caption[Properties of the ``octopus'' graphs~\cite{cl04}.]
+                {Properties of the ``octopus'' graphs~\cite{cl04}, $\beta'$ is the actual exponent.}
         \label{tab:graphs-properties-cl04}
     \end{center}
 \end{table}
 
-We consider the same specific family of such graphs, as in~\cite{cl04}, i.e.:
+We consider the same specific family of such graphs, as Chung and Lu~\cite{cl04}:
 \begin{gather}
     2<\beta<3\implies\frac{1}{2}\leq\frac{1}{\beta-1}\leq 1\\
     d>1\\
@@ -396,8 +396,8 @@ $\qquad\approx\frac{\beta-2}{\beta-1}\frac{d}{n^{(\beta-2)/(\beta-1)}}
 
 \subsection{The Second-Order Average Degree}
 
-\cite{cl04} only states the final result, so we provide
-the derivation here for completeness.
+Chung and Lu~\cite{cl04} only state the final result, so we provide
+its derivation here for completeness.
 
 $\tilde{d}=\frac{1}{dn}\sum_{k=1}^{n}{w_i^2}
 =\frac{1}{dn}\sum_{k=1}^{n}{
@@ -437,7 +437,7 @@ d^{\beta-2}d_{max}^{3-\beta}$.
 
 \subsection{Diameter}
 
-\begin{theorem}[Theorem 2.6 from~\cite{cl04}]
+\begin{theorem}[Theorem 2.6~\cite{cl04}]
     Suppose a power-law random graph with exponent $\beta$ has average degree $d>1$
     and maximum degree $d_{max}\gg n^{1/\log\log n}$.
     If $2<\beta<3$, its diameter is $\Theta(\log n)$ w.h.p.
@@ -459,7 +459,7 @@ d^{\beta-2}d_{max}^{3-\beta}$.
 
 Such a specific structure explains the name of these graphs.
 
-%``Local sparsity'' property from~\cite{kri17} should be called ``not being locally sparse''.
+%``Local sparsity'' property~\cite{kri17} should be called ``not being locally sparse''.
 %Can we ``shave'' some extra edges off from very dense spots and apply~\autoref{thm:kri}?
 %
 %So $G\backslash L_c$ (popular nodes) has expander, and $M_c$ is its core (most popular nodes),

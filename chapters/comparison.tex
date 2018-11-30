@@ -15,7 +15,7 @@ the expansion $\gamma$, and $\epsilon,\delta>0$ are some arbitrary small constan
 We saw in~\autoref{ch:prelims} that random $d$-regular graphs are
 themselves $(\epsilon n,d-2-\delta)$ vertex and edge expanders.
 
-The model from~\cite{gms03} is similar to our coin toss model
+The model from Gkantsidis et al.~\cite{gms03} is similar to our coin toss model
 and it describes the graphs with a small constant conductance $0.0175$,
 which is a generalization of $(n/2,\gamma)$ edge expansion.
 
@@ -49,9 +49,9 @@ It harmonizes with our \autoref{lem:coin-toss-lemma-d}, which explains
 that graphs with the expected average degree $d>10\log n$
 are $(n/2,d/2-\delta)$ edge expanders, for any small constant $\delta>0$.
 
-\autoref{thm:kri-gnp} from~\cite{kri17} adds to this by saying that
-$G(n,p)$ graph in supercritical regime $p=(1+\epsilon)/n$
-w.h.p. contains $(n'/2,\gamma)$ vertex expander on $n'=\Theta(n)$ vertices.
+\autoref{thm:kri-gnp} adds to this by saying that $G(n,p)$ graph
+in supercritical regime with $p=(1+\epsilon)/n$ w.h.p. contains
+$(n'/2,\gamma)$ vertex expander on $n'=\Theta(n)$ vertices~\cite{kri17}.
 
 The parameters are:
 $c_1=1+\epsilon,c_2=1+\epsilon^2/10$,
@@ -81,14 +81,14 @@ with $0<\beta<1$, $n''=n/2$, and arbitrary small constant $\delta>0$.
 
 \autoref{tab:models-comparison} highlights similarities between the sizes of our
 expanding subgraphs in the coin toss model from~\autoref{sec:powerlaw-coin-toss-model}
-and the largest connected components of power-law graphs from~\cite{acl01},
+and the largest connected components of power-law graphs from Aiello et al.~\cite{acl01},
 although there are still some gaps.
 
-For example, \cite{acl01,cl06} claim that the giant component exists for $\beta\in(0;3.48)$.
-%Theorem 2 from~\cite{acl01} and Theorem 11.2 from~\cite{cl06}
+For example, we know that the giant component exists for $\beta\in(0;3.48)$~\cite{acl01,cl06}.
+%Theorem 2~\cite{acl01}, Theorem 11.2~\cite{cl06}
 For $3.48<\beta<4$, the size of each connected component
 is at most $\Theta\left(n^{2/\beta}\log n\right)$,
-%Theorem 1 from~\cite{acl01}, Theorem 11.1 in~\cite{cl06}
+%Theorem 1~\cite{acl01}, Theorem 11.1~\cite{cl06}
 and for $\beta>4$ it is $\Theta\left(n^{2/(\beta+2)}\log n\right)$.
 
 Our proof provides a linear size edge expander only for $\beta$ up to $1.6$,
