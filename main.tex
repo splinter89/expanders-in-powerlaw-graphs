@@ -111,6 +111,7 @@
 \usepackage{multirow}       % Create tabular cells spanning multiple rows
 \usepackage{aliascnt}       % Alias counters // fix Lemma autoref
 \usepackage{subfig}         % Figures broken into subfigures
+\usepackage[format=hang]{caption} % Customising captions in floating environments
 
 
 
@@ -181,6 +182,8 @@
 \DeclareMathOperator*{\vol}{vol}
 \DeclareMathOperator*{\Vol}{Vol}
 \DeclareMathOperator*{\dist}{dist}
+\captionsetup[table]{position=above,justification=justified,singlelinecheck=false}
+\captionsetup[figure]{position=below}
 
 
 
