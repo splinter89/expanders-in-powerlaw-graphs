@@ -63,7 +63,7 @@ and show existence of expanding subgraphs for different ranges of the exponent $
 \begin{figure}
     \centering
     \includegraphics[scale=0.75]{images/generated/power-law}
-    \caption{Power law functions.}
+    \caption{Power-law functions.}
     \label{fig:power-law-functions}
 \end{figure}
 
@@ -170,7 +170,7 @@ When $\beta>0$, we generalize the argument to show existence
 of the edge expanders of size $n/2$ with expansion $d/2$,
 but the average degree $d$ deteriorates for larger $\beta$.
 Also, if $\beta>1$, there is an additional constraint $p\,\zeta(\beta)>2$
-which essentially limits $\beta<1.72$.
+which essentially limits $\beta\leq 1.72$.
 Meanwhile, vertex expansion of the subgraph with vertices of degree
 at least $d_0$ is almost $d_0/2-2$ whenever $\beta>0$.
 
@@ -199,7 +199,7 @@ applicable to expanders on these power-law graphs.
         \renewcommand*{\arraystretch}{1.3}
         \begin{tabular}{|l|c|c|c|c|}
             \hline
-            \multicolumn{1}{|r|}{$\beta$} & $(0;1.6)$ & $(1.6;1.72)$ & $(1.72;3.48)$ & $(3.48;\infty)$\\
+            \multicolumn{1}{|r|}{$\beta$} & $(0;1.6]$ & $(1.6;1.72]$ & $(1.72;3.48)$ & $(3.48;\infty)$\\
             \hline\hline
             {\renewcommand{\arraystretch}{1.0}\begin{tabular}{@{}l@{}}The largest components\\in power-law graphs~\cite{acl01}\end{tabular}} & \multicolumn{3}{|c|}{the giant component, $\Theta(n)$} & $O\left(n^{2/\beta}\log n\right)$\rule{0pt}{19pt}\\[0.7em]
             \hline
@@ -233,7 +233,6 @@ for edge and vertex expansion of regular graphs.
 
 Throughout this work, we deal with varying approximations of harmonic numbers,
 so we have to treat different ranges of the exponent $\beta$ separately.
-
 Lastly, our proof of small diameter of vertex expanders resembles
 a common technique for graph decomposition.
 

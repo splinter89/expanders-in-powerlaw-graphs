@@ -120,7 +120,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
     
     $\qquad\leq\sum_{s=1}^{n'/2}{\exp\left(\left(
         1+\ln n'
-        -\frac{d}{2}(1-1/2)
+        -\frac{d}{4}
         +\gamma
     \right)s\right)}\leq$
     
@@ -289,11 +289,10 @@ than edges from $H$ to low-degree vertices in $G\backslash H$.
 
 \begin{proof}
     \textbf{Case $\beta=1$:}
-    $d_{max}=e^\alpha$.
+    $d_{max}=e^\alpha$. In this case $n=\alpha e^\alpha$
+    and $\alpha\approx\ln n$ by~\eqref{eq:lambert-approx}.
     
-    %todo temp
     \begin{gather*}
-        n=\alpha e^\alpha\qquad\alpha\approx\ln n\\
         d_0=d_{max}e^{-x}\\
         \ln d_0=\ln d_{max}-x\\
         n'=(\ln d_{max}-\ln d_0)\frac{n}{\alpha}=\frac{xn}{\alpha}
@@ -379,8 +378,7 @@ than edges from $H$ to low-degree vertices in $G\backslash H$.
         y=\frac{1/\beta-1}{\beta-1}=-1/\beta
     \end{gather*}
     $d_0=\frac{d_{max}}{n^{1/\beta}}\implies
-    n'\approx\frac{n}{(\beta-1)\,\zeta(\beta)^{1/\beta}}=\Theta(n)
-    \qquad\qquad\qquad\qquad\sum_{i=1}^{\infty}{\frac{1}{i^2}}=\frac{\pi^2}{6}$
+    n'\approx\frac{n}{(\beta-1)\,\zeta(\beta)^{1/\beta}}=\Theta(n)$.
         
     We note that $(\beta-1)\,\zeta(\beta)^{1/\beta}>1$ requires $\beta\leq 1.6$.
 
@@ -388,8 +386,8 @@ than edges from $H$ to low-degree vertices in $G\backslash H$.
     \begin{align*}
         d&=\frac{\Vol(H)}{n'}=\frac{H_{d_{max},\beta-1}-H_{d_0,\beta-1}}{H_{d_{max},\beta}-H_{d_0,\beta}}\\
         1<\beta<2:\quad d&=\frac{d_{max}^{2-\beta}-d_0^{2-\beta}}{(2-\beta)\,\Theta(1)}
-        =\frac{1-n^{-(2-\beta)/\beta}}{(2-\beta)\,\Theta(1)}d_{max}^{2-\beta}=\Theta\left(d_{max}^{2-\beta}\right)\\
-        \beta=2:\quad d&=\frac{\ln d_{max}-\ln d_0}{\Theta(1)}=\frac{\frac{1}{\beta}\ln n}{\Theta(1)}\\
+        =\frac{1-n^{-(2-\beta)/\beta}}{(2-\beta)\,\Theta(1)}d_{max}^{2-\beta}=\Theta\left(d_{max}^{2-\beta}\right)=\Theta\left(n'^{(2-\beta)/\beta}\right)\\
+        \beta=2:\quad d&=\frac{\ln d_{max}-\ln d_0}{\Theta(1)}=\frac{\frac{1}{\beta}\ln n}{\Theta(1)}=\Theta(\ln n')\\
         \beta>2:\quad d&=\Theta(1)
     \end{align*}
     
@@ -579,12 +577,12 @@ According to our choice of $H$, $n'=|V_H|$ is the largest number from $\{1,\ldot
     \vol(S)=s\frac{\vol(H)}{n'}
 \end{gather}
 
-We can apply~\autoref{thm:gms} to show small constant edge expansion of $H$,
-as long as $d_0\geq 3$. For larger expansion we have the following theorem.
+We can apply~\autoref{thm:gms} to show small constant conductance of $H$,
+as long as $d_0\geq 3$. For edge and vertex expansion we have the following theorems.
 
 \begin{theorem}[Existence of an edge expander]
     \label{thm:powerlaw-permutation-edge-expansion}
-    $\forall 0<p<1\;\exists d_0=d_0(p,n,\beta)\;\forall\delta>0\;\exists\gamma,\epsilon>0:$
+    $\forall 0<p\leq 1\;\exists d_0=d_0(p,n,\beta)\;\forall\delta>0\;\exists\gamma,\epsilon>0:$
     let $G$ be a random power-law graph where each vertex $v$ has $\deg(v)=pnv^{-\beta}$,
     and $H$ is its induced subgraph of size $n'$ obtained by retaining vertices of degree at least $d_0$.
     
@@ -593,7 +591,7 @@ as long as $d_0\geq 3$. For larger expansion we have the following theorem.
     Otherwise, $H$ is $(\epsilon n',\gamma)$ edge expander w.h.p.
     
     When $\beta>1$, the additional requirement is $p\,\zeta(\beta)>2$.
-    More roughly, $\zeta(\beta)>2$ or $\beta<1.72$,
+    More roughly, $\zeta(\beta)>2$ or $\beta\leq 1.72$,
     and the smaller $p$, the smaller $\beta$ for which subsets still expand.
     \begin{gather}
         n'=
@@ -628,7 +626,7 @@ as long as $d_0\geq 3$. For larger expansion we have the following theorem.
 
 \begin{theorem}[Existence of a vertex expander]
     \label{thm:powerlaw-permutation-vertex-expansion}
-    $\forall 0<p<1\;\exists d_0=d_0(p,n,\beta)\;\forall\delta>0\;\exists\gamma,\epsilon>0:$
+    $\forall 0<p\leq 1\;\exists d_0=d_0(p,n,\beta)\;\forall\delta>0\;\exists\gamma,\epsilon>0:$
     let $G$ be a random power-law graph where each vertex $v$ has $\deg(v)=pnv^{-\beta}$,
     and $H$ is its induced subgraph of size $n'$ obtained by retaining vertices of degree at least $d_0$.
     
@@ -650,7 +648,7 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
 \begin{proof}[Proof of~\autoref{thm:powerlaw-permutation-edge-expansion}]
     \textbf{Case $\beta=0$:}
     $\deg(v)=pn$ for each $v\in V$, so we choose $d_0=pn$, then trivially $H=G$ and $n'=n$.
-    This reduces the proof to known case of regular graphs described in~\autoref{subsec:edge-expansion-reg}.
+    This reduces the proof to known case for regular graphs described in~\autoref{subsec:edge-expansion-reg}.
     
     As for the other cases when $\beta>0$, we want our subgraph $H$ to have linear size, so we need to choose appropriate $d_0$:
     \begin{gather*}
@@ -706,16 +704,13 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
     \right)^s}=$
 
     $\qquad=\sum_{s=1}^{\epsilon n'}{\left(
-    \frac{e^{1+\gamma/2}}{\gamma^\gamma}
-    e^{d/2}
-    \frac{d^{(d+\gamma)/2}}{(d-\gamma)^{(d-\gamma)/2}}
-    \left(\frac{s}{n'}\right)^{d/2-\gamma/2-1}
+        \frac{e^{1+\gamma/2}}{\gamma^\gamma}
+        e^{d/2}
+        \frac{d^{(d+\gamma)/2}}{(d-\gamma)^{(d-\gamma)/2}}
+        \left(\frac{s}{n'}\right)^{d/2-\gamma/2-1}
     \right)^s}$,
     
     where $d=\vol(H)/n'$ is the average degree of $H$.
-    
-    Unfortunately, we cannot use~\autoref{pro:bound-prob-large-sets}
-    because of the condition $c_1=o\left(n'^{c_2-1}\right)$.
     
     In order to upper bound the probability of $H$ not being an edge expander we need
     \begin{equation}
@@ -737,7 +732,11 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
         e
         (2e)^{3d/4}
         \left(\frac{s}{n'}\right)^{d/4-1}
-    \right)^s}$
+    \right)^s}$.
+
+    Unfortunately, we cannot use~\autoref{pro:bound-prob-large-sets}
+    with $c_1=e(2e)^{3d/4},c_2=d/4-1$ because $c_2<\log c_1$,
+    even though the condition $c_1=o\left(n'^{c_2-1}\right)$ is met.
 
     What's left to argue is that in all cases this expression may be upper bounded by $o(1)$, while also maintaining $d>4$.
     
@@ -804,7 +803,7 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
         d=\zeta(\beta)\,d_0n'^{\beta-1}=2p\,\zeta(\beta)=O(1)
     \end{gather*}
     Here we get an additional requirement $p\,\zeta(\beta)>2$, because we need $d>4$.
-    As~$0<p<1$ and $\zeta(\beta)$ is monotonically decreasing, it serves as an upper bound for $\beta$.
+    As~$0<p\leq 1$ and $\zeta(\beta)$ is monotonically decreasing, it serves as an upper bound for $\beta$.
 
     Finally, let $c_1=e(2e)^{3d/4}$, $c_2=d/4-1$ be some positive constants,
     then for sufficiently small $\epsilon$:
@@ -883,7 +882,7 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
         \beta<1
     \end{gather}
     
-    $\Pr_G[G\text{ is not }(\alpha n,\gamma)\text{ vertex expander}]
+    $\Pr_G[H\text{ is not }(\epsilon n',\gamma)\text{ vertex expander}]
     \leq\sum_{s=1}^{\epsilon n'}{\Pr_G[\exists\text{ non-expading }S\text{ of size }s]}=o(1)$.
     
     This final step may be achieved in two ways.
@@ -945,7 +944,7 @@ Analogously, $i_1$ is the index of the last vertex included in the core:
 \begin{gather*}
     w_x=\frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}x^{-1/(\beta-1)}\geq n^{1/\log\log n}=d_0\\
     \frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}-1/\log\log n}\geq x^{1/(\beta-1)}\\
-    x\leq\left(\frac{\beta-2}{\beta-1}d\right)^{\beta-1}n^{1-\frac{\beta-1}{\log\log n}}=i_1
+    x\leq\left(\frac{\beta-2}{\beta-1}d\right)^{\beta-1}n^{1-\frac{\beta-1}{\log\log n}}=\left(\frac{c}{d_0}\right)^{\beta-1}=i_1
 \end{gather*}
 
 $i_1\leq n$ implies a restriction on the average degree:
@@ -956,7 +955,6 @@ $i_1\leq n$ implies a restriction on the average degree:
 By our assumptions: $i_1=i_0\left(\frac{d_{max}}{n^{1/\log\log n}}\right)^{\beta-1}\gg i_0$.
 
 Let $n'$ denote the size of the core.
-
 %\cite{cl04} claims that:
 %\begin{gather}
 %    n'=n^{c/log\log n}\\
@@ -984,24 +982,21 @@ $\qquad=\frac{\beta-1}{\beta-2}n^{1/\log\log n}=\omega(\log n')$
 
 As a result, the core is edge expander w.h.p. by~\autoref{lem:coin-toss-lemma-d}.
 
-Moreover, this core contains $G(n'',p)$ by~\cite{cl04}:
+Moreover, this core contains $G(n',p)$ with $p=d_0^2/dn$~\cite{cl04},
+and if $d=\Theta(1)$, then the expected degrees are $\omega(\log n)$:
 
-$n''p=\left(cnd_0^{1-\beta}\right)\frac{d_0^2}{dn}
-=\left(cn^{1+(1-\beta)/\log\log n}\right)\frac{n^{2/\log\log n}}{dn}
-=\frac{c}{d}n^{(3-\beta)/\log\log n}=$
-
-$\qquad=\frac{\beta-2}{\beta-1}n^{\frac{1}{\beta-1}+(3-\beta)/\log\log n}
-=\omega(\log n'')$
-\begin{equation}
-    \log n''=\log d+\log n(\frac{1}{\beta-1}+1+(1-\beta)/\log\log n)
-\end{equation}
-%$\frac{\log n''}{\log pn''}=\frac{\log n}{\log n/\log\log n}=\log\log ns$
+$n'p=\left(\frac{c}{d_0}\right)^{\beta-1}\frac{d_0^2}{dn}
+=\Theta\left(d^{\beta-2}d_0^{3-\beta}\right)
+=\Theta\left(d^{\beta-2}n^{(3-\beta)/\log\log n}\right)
+=\omega(\log n)$
 
 \cite{cl04} uses this fact to prove $O(\log\log n)$ diameter of the core.
 
-Thus, we can apply~\autoref{thm:kri-gnp} to get large vertex expander inside of the core,
-which could serve as an alternative step for the proof of $O(\log n)$ diameter
-of the ``octopus'' graph.
+We can apply~\autoref{thm:kri-gnp} on this $G(n',p)$ to get linear size
+vertex expander of diameter $O(\log n)$ inside of the core.
+If we could also say that other vertices are not ``too far'' from this expander,
+it could serve as an alternative step for the proof
+of $O(\log n)$ diameter of the whole ``octopus'' graph.
 
 \section{Diameter of Vertex Expanders}
 

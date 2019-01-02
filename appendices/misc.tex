@@ -34,7 +34,11 @@ Lambert function $W(x)$ is defined by the relation:
     z=W(ze^z)
 \end{equation}
 When $x>0, W(x)=\ln x-\ln W(x),$ and $\lim_{x\to\infty}{\frac{W(x)}{\ln x}}=1$.
-Thus, we can approximate $W(x)\approx\ln x$.
+Thus, we can approximate:
+\begin{equation}
+    \label{eq:lambert-approx}
+    W(x)\approx\ln x
+\end{equation}
 
 \section{Finding Expanding Subsets In Locally Sparse Graphs}
 
@@ -45,7 +49,7 @@ Thus, we can approximate $W(x)\approx\ln x$.
         \Procedure{FindExpander}{$G,\alpha$}
         \State $V_1\gets V$
         \For{$i\gets 1,i_{max}$}
-            \State $d_i=\frac{|V_i|}{|E_i|}\geq c_2$
+            \State $d_i=\frac{|E_i|}{|V_i|}\geq c_2$
             \State $\delta=$ edge boundary of the sparsest cut $(W_i, V_i\backslash W_i)$
             \If{$|V_i|\leq \alpha n$}\Comment{$G_i$ is small and dense}
                 \State \textbf{break}
@@ -53,7 +57,7 @@ Thus, we can approximate $W(x)\approx\ln x$.
                 \State remove isolated vertices\Comment{density increases}
                 \State \textbf{continue}
             \ElsIf{$\lambda_{G_i}>\frac{\delta^2}{2\Delta^2}$}
-                \State $G_i$ is good edge-expander by~\eqref{eq:cheeger-inequalities}(2)
+                \State $G_i$ is edge-expander by~\eqref{eq:cheeger-inequalities}(2)
                 \State and $\Delta(G_i)\leq\Delta$\Comment{$G_i$ is a vertex-expander}
                 \State \textbf{break}
             \Else

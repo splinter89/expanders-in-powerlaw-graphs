@@ -108,9 +108,9 @@ to the one from~\cite{acl01}, whose properties are summarized in~\autoref{tab:gr
             \cline{1-6}
             {\renewcommand{\arraystretch}{1.0}\begin{tabular}{@{}l@{}}the 2nd largest\\component\end{tabular}} & --- & \multicolumn{2}{|c|}{$O(1)$} & $O\left(\frac{\log n}{\log\log n}\right)$ & $O(\log n)$ &\rule{0pt}{20pt}\\[0.7em]
             \cline{1-7}
-            \#vertices, $n$ & $\frac{e^{\alpha/\beta}}{1-\beta}$ & $\alpha e^\alpha$ & \multicolumn{4}{|c|}{$\zeta(\beta)e^\alpha$}\rule{0pt}{21pt}\\[0.7em]
+            $|V|=n$ & $\frac{e^{\alpha/\beta}}{1-\beta}$ & $\alpha e^\alpha$ & \multicolumn{4}{|c|}{$\zeta(\beta)e^\alpha$}\rule{0pt}{21pt}\\[0.7em]
             \cline{1-7}
-            \#edges & \multicolumn{3}{|c|}{$\frac{1}{2}\frac{e^{2\alpha/\beta}}{2-\beta}$} & $\frac{1}{4}\alpha e^\alpha$ & \multicolumn{2}{|c|}{$\frac{1}{2}\zeta(\beta-1)e^\alpha$}\rule{0pt}{21pt}\\[0.7em]
+            $|E|$ & \multicolumn{3}{|c|}{$\frac{1}{2}\frac{e^{2\alpha/\beta}}{2-\beta}$} & $\frac{1}{4}\alpha e^\alpha$ & \multicolumn{2}{|c|}{$\frac{1}{2}\zeta(\beta-1)e^\alpha$}\rule{0pt}{21pt}\\[0.7em]
             \hline
         \end{tabular}
         \caption[Properties of power-law graphs from~\cite{acl01}.]
@@ -122,17 +122,17 @@ to the one from~\cite{acl01}, whose properties are summarized in~\autoref{tab:gr
 
 \subsection{Maximum Degree, Expected Size, and the Number of Edges}
 
-Like \cite{acl01}, we ignore isolated vertices, $y\geq1$
+Like~\cite{acl01}, we ignore isolated vertices, $y\geq1$
 and $0\leq\ln y=\alpha-\beta\ln x$, consequently:
 \begin{equation}
     d_{max}=e^{\alpha/\beta}
 \end{equation}
 
-The size and the number of edges:
+The size of the graph and the expected number of edges:
 \begin{equation}
     \label{eq:powerlaw-coin-toss-n-e}
     n=\sum_{x=1}^{e^{\alpha/\beta}}{\frac{e^\alpha}{x^\beta}}
-    \qquad \E_G[m]=\frac{\Vol(G)}{2}=\frac{1}{2}\sum_{x=1}^{e^{\alpha/\beta}}{x\frac{e^\alpha}{x^\beta}}
+    \qquad \E_G[|E|]=\frac{\Vol(G)}{2}=\frac{1}{2}\sum_{x=1}^{e^{\alpha/\beta}}{x\frac{e^\alpha}{x^\beta}}
 \end{equation}
 
 %These values of $d_{max}$ and $\Vol(G)$ do not satisfy~\eqref{eq:coin-toss-assumption}:
@@ -225,13 +225,14 @@ The second-order average degree:
 \section{Permutation Power-Law Model}
 
 In the permutation model each vertex $v\in\{1,\ldots,n\}$ has exactly
-$w_v$ neighbors chosen with the probability proportional to their degrees:
+$w_v$ neighbors chosen with probability proportional to their degrees:
 \begin{equation}
     \label{eq:powerlaw-permutation-deg}
     \deg(v)=w_v=\frac{pn}{v^\beta},\quad 0<p\leq 1
 \end{equation}
 
-If $\beta=0$, the model is identical to $G(n,p)$:
+If $\beta=0$, the coin toss model with expected degree sequence
+$(w_1,\ldots,w_n)$ would be identical to $G(n,p)$ with self-loops:
 \begin{gather*}
     w_v=pn
     \qquad \vol(G)=pn^2
@@ -395,8 +396,8 @@ $\qquad\approx\frac{\beta-2}{\beta-1}\frac{d}{n^{(\beta-2)/(\beta-1)}}
 
 \subsection{The Second-Order Average Degree}
 
-\cite{cl04} only states the final results, so we provide
-their derivation here for completeness.
+\cite{cl04} only states the final result, so we provide
+the derivation here for completeness.
 
 $\tilde{d}=\frac{1}{dn}\sum_{k=1}^{n}{w_i^2}
 =\frac{1}{dn}\sum_{k=1}^{n}{

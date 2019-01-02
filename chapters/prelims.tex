@@ -610,7 +610,7 @@ Here $G$ is assumed to be a bipartite multigraph with $n$ vertices on each side.
     $\Pr_G[G\text{ is not }(\alpha n,\gamma)\text{ edge expander}]=o(1)$.
 \end{proof}
 
-We will prove one of our results in a similar fashion.
+We will prove one of our results, \autoref{thm:powerlaw-permutation-edge-expansion}, in a similar fashion.
 
 \begin{theorem}[\cite{bol88}]
     \label{thm:reg-edge-expansion-optimal-alpha}
@@ -725,8 +725,8 @@ However, the following result holds for random graphs with general degree sequen
     \label{thm:gms}
     Let $(w_1,\ldots,w_n)$ be a sequence of integers and
     \begin{gather}
-        w_1\geq w_2\geq \ldots\geq w_n\geq d_{min}=3
-        %\\D=\sum_{i=1}^{n}{w_i}=O(n) %unused
+        w_1\geq w_2\geq \ldots\geq w_n\geq d_{min}=3\\
+        D=\sum_{i=1}^{n}{w_i} %=O(n) unused
     \end{gather}
     Let $G=(V,E)$ be a random graph with a degree sequence $(w_1,\ldots,w_n)$
     generated according to the permutation model of~\autoref{subsec:permutation-model}.
@@ -782,8 +782,6 @@ However, the following result holds for random graphs with general degree sequen
         c_1(m/e)^{m/2}<M(m)<c_2(m/e)^{m/2}
     \end{equation}
 
-    Then:
-    
     $\gamma k\frac{M(2\gamma k)\,M(k-\gamma k)\,M(D-k-\gamma k)}{M(D)}<$
     
     $\qquad<c_4\gamma k
@@ -878,7 +876,7 @@ For a graph $G=(V,E)$ on $n$ vertices and a subset $W\subseteq V$ set $\vol(W)=\
     Let $c_1>c_2>0, 0<\alpha<1, \Delta>0$, and
     $G=(V,E), \Delta(G)\leq\Delta,\frac{|E|}{|V|}\geq c_1$.
     Then there exist a constant $\gamma=\gamma(c_1,c_2,\alpha,\Delta)>0$
-    and poly(n)-time algorithm that finds
+    and poly$(n)$-time algorithm that finds
     either $W\subset V$ of size $|W|\leq\alpha n$ spanning at least $c_2|W|$ edges,
     or an induced $(|W|/2,\gamma)$ vertex expander on $|W|\geq\alpha n$ vertices.
 \end{theorem}
@@ -907,11 +905,11 @@ For a graph $G=(V,E)$ on $n$ vertices and a subset $W\subseteq V$ set $\vol(W)=\
     \label{thm:kri-gnp}
     $\forall\epsilon>0\;\exists\gamma>0:$ a random graph $G\sim G\left(n,\frac{1+\epsilon}{n}\right)$
     contains w.h.p. an induced bounded degree $(n'/2,\gamma)$ vertex expander
-    on at least $n'=\gamma n$ vertices.
+    on $n'\geq\gamma n$ vertices.
 \end{theorem}
 
 \begin{proof}[Proof outline]
     A known fact about $G\left(n,\frac{1+\epsilon}{n}\right)$ is the existence of a giant connected component with ``enough'' edges.
-    Removing not so many vertices of the highest degree, we get the bounded maximum degree by \autoref{pro:kri-2}.
+    Removing a constant fraction of vertices having the highest degree, we get the bounded maximum degree by \autoref{pro:kri-2}.
     Then \autoref{pro:kri-1} guarantees the local sparsity, and we apply \autoref{thm:kri}.
 \end{proof}
