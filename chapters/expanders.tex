@@ -69,7 +69,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
 
 \begin{proof}
     Given an arbitrary cut $(S,T)$: $e(S,T)=\{(u,v)\in E_H\;|\;u\in S,v\in T\}$.
-    Using~\eqref{eq:powerlaw-coin-toss-edge-pr}:
+    Using~\eqref{eq:powerlaw-coin-toss-edge-pr},
     \begin{equation}
         \E_G[|e(S,T)|]=\frac{\Vol(S)\,\Vol(T)}{\Vol(H)}
         % arg max(x(1-x)) = 0.5
@@ -78,7 +78,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
     The volume of an arbitrary subset $S\subset V_H$ of a fixed size $|S|=s\leq n'/2$
     is $\Vol(S)=sd$, where $d=\Vol(H)/n'$ is the expected average degree of $H$.
     
-    Define a random variable $X_S$ to be the size of a cut $(S,V_H\backslash S)$ with expected value $\mu$:
+    Define a random variable $X_S$ to be the size of a cut $(S,V_H\backslash S)$ with expected value $\mu$.
     \begin{gather}
         X_S=|e(S,V_H\backslash S)|\\
         \mu=\E_G[X_S]=\frac{\Vol(S)\Vol(V_H\backslash S)}{\Vol(H)}=\Vol(S)\left(1-\frac{s}{n'}\right)\\
@@ -87,7 +87,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
     \end{gather}
     
     We will use the Chernoff bound for the lower tail~\eqref{eq:chernoff-lower-tail}
-    for some $0<\lambda<1$:
+    for some $0<\lambda<1$.
     \begin{gather*}
         \gamma s=(1-\lambda)\mu\\
         0<\lambda=1-\gamma s/\mu
@@ -97,7 +97,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
         \gamma<\mu/s
     \end{equation}
     
-    Therefore, the only requirement is $\gamma<d/2$. Now, as for the expansion of $H$:
+    Therefore, the only requirement is $\gamma<d/2$. Now, as for the expansion of $H$,
     
     $\Pr_{G,S}[S\text{ is non-expanding}]=\Pr_{G,S}[X_S\leq\gamma s]\leq \exp(-\lambda^2\mu/2)
     =\exp(-(\mu-\gamma s)^2/2\mu)=$
@@ -126,7 +126,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
     
     $\qquad\leq\sum_{s=1}^{n'/2}{\left(\frac{1}{n'^{(1+\sigma)}}\right)^s}\leq\frac{n'/2}{n'^{(1+\sigma)}}=o(1).$
     
-    The last line is obtained if we can satisfy the following inequality
+    The last line is obtained if we satisfy this inequality
     for some small constant $\sigma>0$:
     \begin{gather*}
         1+\ln n'-\frac{d}{4}+\gamma\leq-(1+\sigma)\ln n'\\
@@ -138,7 +138,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
 
 \begin{lemma}[Size and volume of the subgraph H]
     \label{lem:powerlaw-coin-toss-size-vol-of-h}
-    If $d_0=c\,d_{max}$ for $0<c<1$, then:
+    If $d_0=c\,d_{max}$ for $0<c<1$, then
     \begin{gather}
         n'=
         \begin{cases}
@@ -161,7 +161,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
     $n'=\sum_{x=d_0}^{d_{max}}\frac{e^\alpha}{x^\beta},
     \;\Vol(H)=\sum_{x=d_0}^{d_{max}}{x\frac{e^\alpha}{x^\beta}}$.
     
-    \textbf{Case $\beta<1$}, similarly to~\eqref{eq:powerlaw-coin-toss-vol}:
+    \textbf{Case $\beta<1$}: similarly to~\eqref{eq:powerlaw-coin-toss-vol},
     \begin{equation*}
         n=\frac{e^{\alpha/\beta}}{1-\beta}
         \qquad n'=\frac{e^\alpha}{1-\beta}\left(d_{max}^{1-\beta}-d_0^{1-\beta}\right)
@@ -225,7 +225,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
         \approx\frac{c^{-\beta+2}-1}{\beta-2}e^{2\alpha/\beta}+\frac{c^{-\beta+1}-1}{2}e^{\alpha/\beta}
     \end{gather*}
 
-    Finally, the average degree is always $\Theta(n')$:
+    Finally, the average degree is always $\Theta(n')$.
     \begin{equation*}
         d=\frac{\Vol(H)}{n'}=
         \begin{cases}
@@ -239,7 +239,7 @@ The proof of the theorem is on page~\pageref*{prf:powerlaw-coin-toss-edge-expans
 \end{proof}
 
 Considering $H$ independently from $G\backslash H$,
-we need to account for $e(H,G\backslash H)$:
+we need to account for $e(H,G\backslash H)$.
 \begin{gather}
     \Vol(G)=\begin{cases}
         \Theta\left(n^2\right) & \quad \text{if } \beta<1,\\
@@ -278,13 +278,11 @@ How much smaller would $2\,e(H)$ be than $\Vol(H)$ that we use?
 It means the larger $\beta$, the fewer edges are between high-degree vertices in $H$
 than edges from $H$ to low-degree vertices in $G\backslash H$.
 
+In order to get larger subgraph $H$ for $\beta\geq 1$, we need to include more vertices in $H$.
 \begin{lemma}[Linear size subgraph H]
     \label{lem:powerlaw-coin-toss-size-vol-of-h-large}
-    In order to get $n'=\Theta(n)$, we need to include more vertices in $H$:
-    \begin{itemize}
-        \item $\beta=1$: if $d_0=d_{max}/\sqrt{n}$, then $n'=n/2$;
-        \item $1<\beta\leq 1.6$: if $d_0=\frac{d_{max}}{n^{1/\beta}}$, then $n'=\Theta(n)$.
-    \end{itemize}
+    When $\beta=1$, leaving the vertices of degree at least $d_0=d_{max}/\sqrt{n}$ results in the subgraph $H$ of size $n'=n/2$.
+    And when $1<\beta\leq 1.6$, we pick $d_0=\frac{d_{max}}{n^{1/\beta}}$ to get $H$ of size $n'=\Theta(n)$.
 \end{lemma}
 
 \begin{proof}
@@ -355,7 +353,7 @@ than edges from $H$ to low-degree vertices in $G\backslash H$.
         % syms a b c d z
         % X=solve((1/(a^(b-1))-(1-c))/((b-1)*d^(b-1))+(1/(a^b)-(1-c))/(2*d^b)-c*z, a)
     \end{gather*}
-    If $d_0=xd_{max}$:
+    If $d_0=xd_{max}$,
     \begin{gather*}
         d_{max}=e^{\alpha/\beta}\\
         n=e^\alpha H_{d_{max},\beta}\approx e^\alpha\zeta(\beta)
@@ -371,7 +369,7 @@ than edges from $H$ to low-degree vertices in $G\backslash H$.
         +O\left(\frac{1}{d_{max}}\right)
         \approx\frac{x^{-\beta+1}-1}{(\beta-1)}\left(\frac{n}{\zeta(\beta)}\right)^{1/\beta}
     \end{gather*}
-    We now choose $x=n^y$:
+    We now choose $x=n^y$.
     \begin{gather*}
         n'\approx\frac{n^{1/\beta-y(\beta-1)}}{(\beta-1)\,\zeta(\beta)^{1/\beta}}\\
         1/\beta-y(\beta-1)=1\\
@@ -432,7 +430,7 @@ than edges from $H$ to low-degree vertices in $G\backslash H$.
     
     We choose $\epsilon=1/2$.
     
-    To satisfy the requirement~\eqref{eq:powerlaw-coin-toss-expansion-bound} when $1\leq s\leq n'/2$:
+    To satisfy the requirement~\eqref{eq:powerlaw-coin-toss-expansion-bound} when $1\leq s\leq n'/2$,
     \begin{gather*}
         \gamma<\mu/s=c_1(1-\frac{s}{n'})n'\\
         \gamma=\frac{c_1}{2}n'-\delta\text{, for any }\delta\geq 0
@@ -569,10 +567,10 @@ than edges from $H$ to low-degree vertices in $G\backslash H$.
 
 \section{Permutation Model}
 
-According to our choice of $H$, $n'=|V_H|$ is the largest number from $\{1,\ldots,n\}$ s.t.:
+According to our choice of $H$, $n'=|V_H|$ is the largest number from $\{1,\ldots,n\}$ such that
 \begin{gather}
-    \deg(n')=\frac{pn}{n'^\beta}\geq d_0
-    \qquad n'\approx(pn/d_0)^{1/\beta}\\
+    \deg(n')=\frac{pn}{n'^\beta}\geq d_0\\
+    n'\approx(pn/d_0)^{1/\beta}\\
     \vol(H)=\sum_{v=1}^{n'}{\frac{pn}{v^\beta}}=pnH_{n',\beta}=d_0n'^\beta H_{n',\beta}\\
     \vol(S)=s\frac{\vol(H)}{n'}
 \end{gather}
@@ -650,12 +648,12 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
     $\deg(v)=pn$ for each $v\in V$, so we choose $d_0=pn$, then trivially $H=G$ and $n'=n$.
     This reduces the proof to known case for regular graphs described in~\autoref{subsec:edge-expansion-reg}.
     
-    As for the other cases when $\beta>0$, we want our subgraph $H$ to have linear size, so we need to choose appropriate $d_0$:
+    As for the other cases when $\beta>0$, we want our subgraph $H$ to have linear size, so we need to choose appropriate $d_0$.
     \begin{gather*}
         n'=(pn/d_0)^{1/\beta}=cn\\
         d_0=\frac{pn}{(cn)^\beta}=\frac{p}{c^\beta}n^{1-\beta}
     \end{gather*}
-    Fixing $c=1/2$ gives:
+    Fixing $c=1/2$ gives us
     \begin{gather*}
         n'=n/2\\
         d_0=2^\beta pn^{1-\beta}=2pn'^{1-\beta}
@@ -828,14 +826,14 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
     
     Otherwise, $\beta>0$.
     For any $S\subset V_H$ of size $|S|=s\leq\epsilon n'$
-    and any $T\subset V_H$ of size $(1+\gamma)s$ we have:
+    and $T\subset V_H$ of size $(1+\gamma)s$,
     \begin{gather}
         d=\frac{\vol(H)}{n'}\\
         \vol(S)=sd\\
         \vol(T)=(1+\gamma)sd
     \end{gather}
     
-    All mini-vertices from $S$ are matched to mini-vertices in $T$ with probability:
+    All mini-vertices from $S$ are matched to mini-vertices in $T$ with probability
     
     $\Pr_{G,S,T}[N_H(S)\subseteq T]\leq\left(\frac{\vol(T)}{\vol(H)}\right)^{\vol(S)/2}$
     
@@ -844,7 +842,7 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
     while $\binom{\vol(H)}{\vol(S)}$ would overcount because mini-vertices
     corresponding to the same vertex in $H$ are indistinguishable.
     Instead we use the trick as Gkantsidis et al.~\cite{gms03} by taking
-    the minimum degree $d_0$ into account:
+    the minimum degree $d_0$ into account.
     
     $\Pr_G[\exists\text{ non-expading }S\text{ of size }s]
     \leq\binom{\vol(H)/d_0}{\vol(S)/d_0}
@@ -875,7 +873,7 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
     Note that this requires $d_0>4$, while similar theorems
     \ref{thm:reg-vertex-expansion} and~\ref{thm:gms} ask for $d_0\geq 3$.
     
-    When $\beta>0$, it translates into:
+    When $\beta>0$, it translates into
     \begin{gather}
         d_0=2^\beta pn^{1-\beta}>4\\
         n^{1-\beta}>2^{2-\beta}\\
@@ -889,7 +887,7 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
     First, we may apply~\autoref{pro:bound-prob-small-sets},
     then $\epsilon$ must be some small constant.
     Secondly, it also follows from~\autoref{pro:bound-prob-large-sets}, but we
-    need to verify $c_1=o\left(n'^{c_2-1}\right)$ and $c_2>\max\{1,\log c_1\}$:
+    need to verify $c_1=o\left(n'^{c_2-1}\right)$ and $c_2>\max\{1,\log c_1\}$.
     \begin{gather*}
         c_1=e^{(2+\gamma)d/d_0}(1+\gamma)^{d(1/2-(1+\gamma)/d_0)}\\
         \log c_1=(\log e)(2+\gamma)d/d_0+(\log(1+\gamma))(d/2-(1+\gamma)d/d_0)\\
@@ -911,7 +909,7 @@ To get the exact degree sequence, one needs to round down
 the expression~\eqref{eq:powerlaw-permutation-deg} for $\deg(v)$.
 In this case the error of $\vol(G)$ is at most $n$.
 For our choice of $d_0$ this error is negligible compared to $\vol(H)$
-when $0\leq\beta\leq1$, but it might be significant otherwise:
+when $0\leq\beta\leq1$, but it might be significant otherwise.
 \begin{equation}
     \vol(H)=
     \begin{cases}
@@ -952,7 +950,7 @@ $i_1\leq n$ implies a restriction on the average degree:
     d\leq\frac{\beta-1}{\beta-2}n^{1/\log\log n}
 \end{equation}
 
-By our assumptions: $i_1=i_0\left(\frac{d_{max}}{n^{1/\log\log n}}\right)^{\beta-1}\gg i_0$.
+By our assumptions, $i_1=i_0\left(\frac{d_{max}}{n^{1/\log\log n}}\right)^{\beta-1}\gg i_0$.
 
 Let $n'$ denote the size of the core.
 %Chung and Lu~\cite{cl04} claim that:
@@ -966,7 +964,7 @@ Let $n'$ denote the size of the core.
     \log n'\approx\log i_1\approx\log n\left(1-\frac{\beta-1}{\log\log n}\right)
 \end{gather}
 
-The average degree of the core:
+The average degree of the core is
 
 $\frac{\sum_{k=i_0}^{i_1}{w_i}}{i_1-i_0}
 \approx\frac{\beta-2}{\beta-1}dn^{\frac{1}{\beta-1}}\frac{1}{i_1}
@@ -983,7 +981,7 @@ $\qquad=\frac{\beta-1}{\beta-2}n^{1/\log\log n}=\omega(\log n')$
 As a result, the core is edge expander w.h.p. by~\autoref{lem:coin-toss-lemma-d}.
 
 Moreover, this core contains $G(n',p)$ with $p=d_0^2/dn$~\cite{cl04},
-and if $d=\Theta(1)$, then the expected degrees are $\omega(\log n)$:
+and if $d=\Theta(1)$, then its expected degrees are
 
 $n'p=\left(\frac{c}{d_0}\right)^{\beta-1}\frac{d_0^2}{dn}
 =\Theta\left(d^{\beta-2}d_0^{3-\beta}\right)
@@ -1001,7 +999,7 @@ of $O(\log n)$ diameter of the whole ``octopus'' graph.
 \section{Diameter of Vertex Expanders}
 
 In this section we focus on $(\epsilon n,\gamma)$ vertex expanders,
-especially on the case $\epsilon<1/2$.
+especially on the case $\epsilon<1/2$, and the results apply to all graph models.
 
 First, consider an example: a graph $G$ that consists of two disconnected
 $(n/4,\gamma)$ vertex expanders of size $n/2$ each.
@@ -1014,7 +1012,7 @@ In general, when $\epsilon\leq1/4$, the connectivity of
 $(\epsilon n,\gamma)$ vertex expander is not guaranteed.
 
 A well known fact about $(n/2,\gamma)$ vertex expanders is that
-they have diameter $O(\log n)$~\cite{rao12,hlw06}.
+they have diameter $O(\log n)$ \cite{rao12,hlw06}.
 We extend on this by demonstrating that the diameter is still $O(\log n)$
 even for small constant $\epsilon<1/2$, assuming the graph is connected.
 
@@ -1051,7 +1049,7 @@ We now prove an intermediate result needed for the theorem.
     by the expansion property of $G$.
     As all subsets of size up to $s(n)$ are expanding, there exists
     \begin{equation}
-        r_0=\ceil{\log_{1+\gamma}s(n)}=\Theta(\log s(n))
+        r_0=\ceil{\log_{1+\gamma}s(n)}=\Theta(\log s(n)),
     \end{equation}
     such that $|B(v,r_0)|\geq s(n)$. The diameter of $B(v,r_0)$ is $O(r_0)$.
     

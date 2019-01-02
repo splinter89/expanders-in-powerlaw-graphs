@@ -15,6 +15,7 @@ Therefore, the degree sequences are only required to be pseudographic:
 degrees must be non-negative, and in case of exact degrees, they should add up to an even number~\cite{hak62}.
 
 \subsection{Coin Toss Model}
+\label{subsec:coin-toss-model}
 
 For each pair of vertices $i$ and $j$, we include the edge $(i,j)$ in the graph with probability
 \begin{equation}
@@ -48,8 +49,8 @@ In this model all edges are independent, and $(w_1,\ldots,w_n)$ are the expected
 
 \subsection{\texorpdfstring{$m$}{m} Edges Model}
 
-Uniformly at random we generate $m=\frac{1}{2}\sum_{k\in V}{w_k}$ edges by
-selecting vertices for endpoints with probability proportional to their degrees.
+We generate $m=\frac{1}{2}\sum_{k\in V}{w_k}$ edges uniformly at random
+by successively selecting pairs of vertices with probability proportional to their degrees.
 In this case $w_i$'s are also expected degrees, however, we get
 the exact number of edges, which are no longer independent.
 
@@ -86,15 +87,17 @@ We are given the expected degree sequence $(w_1,\ldots,w_n)$, where $w_v=\E[\deg
 
 %Note that by~\eqref{eq:chernoff-combined}: $\Pr_G[|\vol(G)-\Vol(G)|\geq\delta]\leq2\,\exp(-\delta^2/(3\;\Vol(G)))$.
 
-Let the expected number of vertices with degree $x$ be equal $y$,
-which follows the power-law distribution for some super-constant $\alpha>0$ and constant $\beta>0$:
+Let the expected number of vertices with degree $x$ be equal to $y$,
+which follows the power-law distribution for some $\alpha=\alpha(n)>0$ and constant $\beta>0$.
+Note that $\alpha$ and $\beta$ are the only open parameters is this model.
 \begin{equation}
     \E_G[|\{v \in V\;|\;\deg(v)=x\}|]=y=\frac{e^\alpha}{x^\beta},
     \quad\text{where }x\in\{1,\ldots,d_{max}\}.
 \end{equation}
 
-As mentioned earlier, this model is asymptotically identical to the one
-used by Aiello et al.~\cite{acl01}, whose properties are summarized in~\autoref{tab:graphs-properties-acl01}.
+Our model is asymptotically identical to Aiello et al.~\cite{acl01},
+whose properties are summarized in~\autoref{tab:graphs-properties-acl01}.
+The only distinction is in defining the expected frequencies instead of the exact ones.
 
 \begin{table}
     %\begin{shaded}
@@ -123,12 +126,12 @@ used by Aiello et al.~\cite{acl01}, whose properties are summarized in~\autoref{
 \subsection{Maximum Degree, Expected Size, and the Number of Edges}
 
 Like Aiello et al.~\cite{acl01}, we ignore isolated vertices, $y\geq1$
-and $0\leq\ln y=\alpha-\beta\ln x$, consequently:
+and $0\leq\ln y=\alpha-\beta\ln x$, consequently, we may deduce
 \begin{equation}
     d_{max}=e^{\alpha/\beta}
 \end{equation}
 
-The size of the graph and the expected number of edges:
+The size of the graph and the expected number of edges are
 \begin{equation}
     \label{eq:powerlaw-coin-toss-n-e}
     n=\sum_{x=1}^{e^{\alpha/\beta}}{\frac{e^\alpha}{x^\beta}}
@@ -147,8 +150,8 @@ The size of the graph and the expected number of edges:
 %$n-1\geq w_1\geq w_2\geq\ldots\geq w_n$,
 %$\sum_{i=1}^n{w_i}$ is even
 
-To get some intuition about the density of such graphs,
-we consider the special case when $d_{max}=n$:
+To get some intuition about the density of $G$,
+we consider the special case when $d_{max}=n$.
 \begin{gather}
     n=\sum_{x=1}^{n}\frac{e^\alpha}{x^\beta}=e^\alpha H_{n,\beta} \qquad e^\alpha=\frac{n}{H_{n,\beta}}\\
     \E_G[m]=\frac{1}{2}\E_G[\sum_{v \in V}\deg(v)]=\frac{1}{2}\sum_{x=1}^{n}x\frac{e^\alpha}{x^\beta}
@@ -173,23 +176,23 @@ $H_{n,-1}=\frac{n(n+1)}{2},
 
 \subsection{Expected Volume and Average Degree}
 
-When $n\to\infty$, the expected volume $\Vol(G)$ is well-defined only if $\beta>2$:
+When $n\to\infty$, the expected volume $\Vol(G)$ is well-defined only for $\beta>2$.
 \begin{gather}
     \Vol(G)\approx\int_1^{\infty}{x\frac{e^\alpha}{x^\beta}}\,dx
     =\frac{e^\alpha}{2-\beta}\left[ x^{-\beta+2} \right]_1^\infty
     =\frac{e^\alpha}{\beta-2}
 \end{gather}
-On the other hand, considering $d_{max}=e^{\alpha/\beta}$ we get:
+On the other hand, considering $d_{max}=e^{\alpha/\beta}$ we get
 \begin{equation}
     \label{eq:powerlaw-coin-toss-vol}
     \Vol(G)\approx\frac{e^\alpha}{2-\beta}\left(\left(e^{\alpha/\beta}\right)^{-\beta+2}-1\right)
     =\frac{1}{2-\beta}\left(e^{2\alpha/\beta}-e^\alpha\right)
 \end{equation}
-The expected average degree:
+The expected average degree is
 \begin{equation}
     d=\frac{\Vol(G)}{n}
 \end{equation}
-The second-order average degree:
+The second-order average degree is
 \begin{equation}
     \tilde{d}=\frac{\sum_{v\in V}{w_v^2}}{\Vol(G)}\approx
     \begin{cases}
@@ -225,10 +228,10 @@ The second-order average degree:
 \section{Permutation Power-Law Model}
 
 In the permutation model each vertex $v\in\{1,\ldots,n\}$ has exactly
-$w_v$ neighbors chosen with probability proportional to their degrees:
+$w_v$ neighbors chosen with probability proportional to their degrees,
 \begin{equation}
     \label{eq:powerlaw-permutation-deg}
-    \deg(v)=w_v=\frac{pn}{v^\beta},\quad 0<p\leq 1
+    \deg(v)=w_v=\frac{pn}{v^\beta},\quad 0<p\leq 1.
 \end{equation}
 
 If $\beta=0$, the coin toss model with expected degree sequence
@@ -262,7 +265,7 @@ writing ``$i\in C$'' instead of ``$i\in C\lor-i\in C$''.
     \Pr_{G(f)}[(i,j)\in E]=1-\prod_C{(1-\Pr[i\in C\land j\in C])},\text{ for }i\neq j
 \end{gather}
 
-Let's assume $k=3$ for simplicity.
+For simplicity, let's assume $k=3$.
 
 $\Pr[i\in C\land j\in C]=\sum_{\substack{1\leq x\leq n\\x\notin\{i,j\}}}\left(
     \Pr[C=(i,j,x)]+\Pr[C=(j,i,x)]+\ldots+\Pr[C=(x,j,i)]
@@ -285,12 +288,12 @@ The probability that an object from class $i$ is sampled is proportional to $w_i
 
 If at step $t$ we have sampled $(x_{1,t},\ldots,x_{c,t})$ objects,
 i.e., exactly $x_{i,t}$ objects from class $i$,
-then the probability that the next draw gives an object from class $i$ is:
+then the probability that the next draw gives an object from class $i$ is
 \begin{equation}
     \frac{(m_i-x_{i,t})w_i}{\sum_{j=1}^c{(m_j-x_{j,t})w_j}}
 \end{equation}
 
-For the multivariate case:
+The multivariate case:
 \begin{gather}
     \text{mwnchypg}(\mathbf{x};n,\mathbf{m},\mathbf{w})=
     \left(\prod_{i=1}^c{\binom{m_i}{x_i}}\right)
@@ -306,8 +309,8 @@ Instead, we can use the fact that the sequence of expected degrees
 in VIG $G(f)$ also follows power-law distribution.
 
 \begin{theorem}[Theorem 1~\cite{abl09}]
-    In the power-law model with continuous probability distribution
-    $\phi(x,\beta)=(1-\beta)x^{-\beta}$, when $n\to\infty$:
+    In the $k$-CNF power-law model with continuous probability distribution
+    $\phi(x,\beta)=(1-\beta)x^{-\beta}$, when $n\to\infty$,
     \begin{equation}
         \Pr_f[\text{variable }i\text{ has }k\text{ occurrences}]\propto k^{-\alpha},
         \quad\text{where }\alpha=1/\beta+1.
@@ -320,12 +323,12 @@ Let $x_i$ be the number of occurrences/clauses with variable $i$.
 \end{equation}
 
 Events ``occurrence of $i$ in clause $C$'' are independent for all clauses,
-so the actual number of occurrences will be close to its expectation:
+so the actual number of occurrences will be close to its expectation.
 
 $\E[x_i]=\sum_{k=1}^m{k\Pr[x_i=k]}=\sum_{k=1}^m{ck^{1-\alpha}}=cH_{m,\alpha-1}$
 
 For any pair $(i,j)$, if $x_i+x_j\geq m$, then $\Pr[(i,j)\in E]=1$ by the pigeonhole principle.
-Otherwise $x_i+x_j<m$ and:
+Otherwise $x_i+x_j<m$ and
 
 $\Pr_{G(f)}[(i,j)\in E]=\Pr[\exists C:i\in C\land j\in C]
 =1-\frac{\binom{m-x_i}{x_j}}{\binom{m}{x_j}}=$
@@ -337,7 +340,7 @@ $\qquad=1-\prod_{k=0}^{x_j-1}{\frac{m-x_i-k}{m-k}}$.
 \section{\texorpdfstring{``Octopus''}{"Octopus"} Power-Law Graph Model}
 \label{sec:powerlaw-octopus-model}
 
-This expected degree model was defined by Chung and Lu~\cite{cl04}:
+The ``octopus'' graph model was defined by Chung and Lu~\cite{cl04}:
 \begin{gather}
     \E_G[\deg(i)]=w_i=ci^{-1/(\beta-1)}\\
     i_0\leq i<n+i_0\\
@@ -346,6 +349,7 @@ This expected degree model was defined by Chung and Lu~\cite{cl04}:
 \end{gather}
 The known results about the average distance and the diameter of resulting graphs
 are collected in~\autoref{tab:graphs-properties-cl04}.
+The generation process is the same as in~\autoref{subsec:coin-toss-model}.
 
 \begin{table}
     \begin{center}
@@ -394,10 +398,10 @@ $\qquad=\frac{\beta-2}{\beta-1}\frac{d}{n^{(\beta-2)/(\beta-1)}}
 $\qquad\approx\frac{\beta-2}{\beta-1}\frac{d}{n^{(\beta-2)/(\beta-1)}}
 \frac{n^{1-1/(\beta-1)}}{1-1/(\beta-1)}=d$.
 
-\subsection{The Second-Order Average Degree}
+\subsection{The Second-Order Average Degree of \texorpdfstring{``Octopus''}{"Octopus"} Graphs}
 
-Chung and Lu~\cite{cl04} only state the final result, so we provide
-its derivation here for completeness.
+Chung and Lu~\cite{cl04} only state the final results, so we provide
+the derivations here for completeness.
 
 $\tilde{d}=\frac{1}{dn}\sum_{k=1}^{n}{w_i^2}
 =\frac{1}{dn}\sum_{k=1}^{n}{
@@ -406,36 +410,36 @@ $\tilde{d}=\frac{1}{dn}\sum_{k=1}^{n}{w_i^2}
 
 $\quad=\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{1-2/(\beta-1)}}
 \sum_{k=1}^{n}{k^{-2/(\beta-1)}}$
-
-\textbf{Case $\beta>3$:}
+\\
+Case $\beta>3$:
 
 $\tilde{d}\approx\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{1-2/(\beta-1)}}
 \frac{n^{(\beta-3)/(\beta-1)}}{(\beta-3)/(\beta-1)}
 =\frac{(\beta-2)^2}{(\beta-1)(\beta-3)}d$
-
-\textbf{Case $\beta=3$:}
+\\
+Case $\beta=3$:
 
 $i_0=n\left(\frac{d}{2d_{max}}\right)^2$
 
 $\tilde{d}\approx\frac{d}{4}\sum_{k=i_0}^{n}{k^{-1}}\approx\frac{d}{4}(\ln n-\ln i_0)
 =\frac{d}{4}(\ln n-\ln n-2\ln\frac{d}{2d_{max}})=\frac{d}{2}\ln\frac{2d_{max}}{d}$
-
-\textbf{Case $2<\beta<3$:}
+\\
+Case $2<\beta<3$:
 
 $\tilde{d}\approx\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{(\beta-3)/(\beta-1)}}
 \sum_{k=i_0}^{n}{k^{-2/(\beta-1)}}\approx$
 
-$\qquad\approx\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{(\beta-3)/(\beta-1)}}
+$\quad\approx\left(\frac{\beta-2}{\beta-1}\right)^2\frac{d}{n^{(\beta-3)/(\beta-1)}}
 \left(\frac{n^{(\beta-3)/(\beta-1)}}{(\beta-3)/(\beta-1)}
     -\frac{i_0^{(\beta-3)/(\beta-1)}}{(\beta-3)/(\beta-1)}
 \right)\approx$
 
-$\qquad\approx-\frac{(\beta-2)^2}{(\beta-1)(\beta-3)}d
+$\quad\approx-\frac{(\beta-2)^2}{(\beta-1)(\beta-3)}d
 \left(\frac{d(\beta-2)}{d_{max}(\beta-1)}\right)^{\beta-3}
 =\frac{(\beta-2)^{\beta-1}}{(\beta-1)^{\beta-2}(3-\beta)}
 d^{\beta-2}d_{max}^{3-\beta}$.
 
-\subsection{Diameter}
+\subsection{Diameter of \texorpdfstring{``Octopus''}{"Octopus"} Graphs}
 
 \begin{theorem}[Theorem 2.6~\cite{cl04}]
     Suppose a power-law random graph with exponent $\beta$ has average degree $d>1$
