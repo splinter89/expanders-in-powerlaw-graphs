@@ -1,3 +1,73 @@
 \chapter{Miscellaneous}
 
-Miscellaneous.
+\section{Approximations}
+
+\subsection{Euler-Maclaurin Formula}
+
+Euler-Maclaurin summation formula provides an approximation of the sum $\sum_{i=0}^n{f(i)}$
+via the integral $\int_0^n{f(x)\,dx}$, and the error term is an integral with Bernoulli numbers.
+\begin{equation}
+    \label{eq:euler-maclaurin-formula}
+    \begin{split}
+        \sum_{n=a}^b{f(n)}=&\int_a^b{f(t)\,dt}+\frac{1}{2}(f(b)+f(a))+\\
+        +&\sum_{i=2}^k{\frac{b_i}{i!}\left(f^{(i-1)}(b)-f^{(i-1)}(a)\right)}-\\
+        -&\int_a^b{\frac{B_k(\{1-t\})}{k!}f^{(k)}(t)\,dt}
+    \end{split}
+\end{equation}
+where $\{x\}$ denotes the fractional part of $x$.
+One of its interesting applications is the Stirling's approximation formula.
+
+If $f(x)$ and all its derivatives tend to $0$ as $x\to\infty$, the formula can be simplified:
+\begin{equation}
+    \sum_{n=a}^\infty{f(n)}=\int_a^\infty{f(t)\,dt}+\frac{1}{2}f(a)
+    -\sum_{i=2}^k{\frac{b_i}{i!}f^{(i-1)}(a)}
+    -\int_a^\infty{\frac{B_k(\{1-t\})}{k!}f^{(k)}(t)\,dt}
+\end{equation}
+
+% https://math.stackexchange.com/q/2726343
+For $k\geq2$: $\quad|B_k(\{x\})|\leq\frac{\pi^2}{3}\frac{k!}{(2\pi)^k}<4\frac{k!}{(2\pi)^k}$
+
+\subsection{Lambert Function}
+
+Lambert function $W(x)$ is defined by the relation:
+\begin{equation}
+    z=W(ze^z)
+\end{equation}
+When $x>0, W(x)=\ln x-\ln W(x),$ and $\lim_{x\to\infty}{\frac{W(x)}{\ln x}}=1$.
+Thus, we can approximate $W(x)\approx\ln x$.
+
+\section{Finding Expanding Subsets In Locally Sparse Graphs}
+
+\begin{algorithm}
+    \caption{Algorithmic proof of~\autoref{thm:kri} (\cite{kri17})}
+    \label{alg:kri}
+    \begin{algorithmic}
+        \Procedure{FindExpander}{$G,\alpha$}
+        \State $V_1\gets V$
+        \For{$i\gets 1,i_{max}$}
+            \State $d_i=\frac{|V_i|}{|E_i|}\geq c_2$
+            \State $\delta=$ edge boundary of the sparsest cut $(W_i, V_i\backslash W_i)$
+            \If{$|V_i|\leq \alpha n$}\Comment{$G_i$ is small and dense}
+                \State \textbf{break}
+            \ElsIf{there are isolated vertices}
+                \State remove isolated vertices\Comment{density increases}
+                \State \textbf{continue}
+            \ElsIf{$\lambda_{G_i}>\frac{\delta^2}{2\Delta^2}$}
+                \State $G_i$ is good edge-expander by~\eqref{eq:cheeger-inequalities}(2)
+                \State and $\Delta(G_i)\leq\Delta$\Comment{$G_i$ is a vertex-expander}
+                \State \textbf{break}
+            \Else
+                \State find $W_i\subset V_i$ using the proof of~\eqref{eq:cheeger-inequalities}(1)
+                \State s.t. $\vol(W_i)\leq\vol(V_i)/2$
+                \State and $e_{G_i}(W_i,V_i\backslash W_i)\leq \delta|W_i|$
+                \If{$W_i$ touches at most $d_i|W_i|$ edges}
+                    \State remove $W_i$\Comment{density doesn't decrease}
+                \Else\Comment{$W_i$ spans less than $(d_i-\delta)|W_i|$ edges}
+                    \State remove $V_i\backslash W_i$\Comment{density might decrease}
+                    \State $d_{i+1}\geq d_i-\delta$
+                \EndIf
+            \EndIf
+        \EndFor
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
