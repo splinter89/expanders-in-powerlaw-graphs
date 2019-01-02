@@ -732,9 +732,12 @@ The proof of this theorem can be found on page~\pageref*{prf:powerlaw-permutatio
         \left(\frac{s}{n'}\right)^{d/4-1}
     \right)^s}$.
 
+    \begin{shaded}
+    $\quad\;\;$
     Unfortunately, we cannot use~\autoref{pro:bound-prob-large-sets}
     with $c_1=e(2e)^{3d/4},c_2=d/4-1$ because $c_2<\log c_1$,
     even though the condition $c_1=o\left(n'^{c_2-1}\right)$ is met.
+    \end{shaded}
 
     What's left to argue is that in all cases this expression may be upper bounded by $o(1)$, while also maintaining $d>4$.
     
@@ -980,6 +983,8 @@ $\qquad=\frac{\beta-1}{\beta-2}n^{1/\log\log n}=\omega(\log n')$
 
 As a result, the core is edge expander w.h.p. by~\autoref{lem:coin-toss-lemma-d}.
 
+\begin{shaded}
+$\quad\,$
 Moreover, this core contains $G(n',p)$ with $p=d_0^2/dn$~\cite{cl04},
 and if $d=\Theta(1)$, then its expected degrees are
 
@@ -987,14 +992,18 @@ $n'p=\left(\frac{c}{d_0}\right)^{\beta-1}\frac{d_0^2}{dn}
 =\Theta\left(d^{\beta-2}d_0^{3-\beta}\right)
 =\Theta\left(d^{\beta-2}n^{(3-\beta)/\log\log n}\right)
 =\omega(\log n)$
+\end{shaded}
 
 Chung and Lu~\cite{cl04} use this fact to prove $O(\log\log n)$ diameter of the core.
 
+\begin{shaded}
+$\quad\;\;$
 We can apply~\autoref{thm:kri-gnp} on this $G(n',p)$ to get linear size
 vertex expander of diameter $O(\log n)$ inside of the core.
 If we could also say that other vertices are not ``too far'' from this expander,
 it could serve as an alternative step for the proof
 of $O(\log n)$ diameter of the whole ``octopus'' graph.
+\end{shaded}
 
 \section{Diameter of Vertex Expanders}
 
